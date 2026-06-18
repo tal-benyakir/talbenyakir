@@ -10,11 +10,11 @@ button { background: none; border: none; cursor: pointer; padding: 0; }
   --white:   #FFFFFF;
   --off:     #F5F4F1;
   --ink:     #111111;
-  --mid:     #888888;
+  --mid:     #df2531;
   --rule:    #111111;
   --rule-lt: #DEDEDE;
 
-  --serif:   'Playfair Display', Georgia, serif;
+  --serif:   'Playfair Display SC', Georgia, serif;
   --sans:    'Helvetica Neue', Helvetica, Arial, sans-serif;
 
   --margin:  clamp(1.5rem, 6vw, 6rem);
@@ -88,7 +88,7 @@ nav {
   transition: color 0.2s;
 }
 
-.menu-overlay a:hover { color: var(--mid); }
+.menu-overlay a:hover { color: #999; }
 
 .menu-overlay .menu-meta {
   margin-top: 3rem;
@@ -108,18 +108,18 @@ nav {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: flex-start;
   padding: var(--margin);
-  padding-top: 6rem;
+  padding-bottom: clamp(4rem, 10vh, 7rem);
 }
 
 .landing-name {
   font-family: var(--serif);
   font-size: clamp(3rem, 9vw, 8rem);
   font-weight: 700;
-  font-style: italic;
-  letter-spacing: -0.02em;
+  font-style: normal;
+  letter-spacing: 0.01em;
   line-height: 1.0;
   color: var(--ink);
   margin-bottom: 1rem;
