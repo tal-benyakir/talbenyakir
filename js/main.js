@@ -1,300 +1,579 @@
-// ─── STATE ───────────────────────────────────────────────────
-let navStack = [];
+/* ─── RESET ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+button { background: none; border: none; cursor: pointer; padding: 0; }
 
-// ─── VIEW REGISTRY ───────────────────────────────────────────
-const views = {
-  landing:        document.getElementById('view-landing'),
-  articles:       document.getElementById('view-articles'),
-  photography:    document.getElementById('view-photography'),
-  bio:            document.getElementById('view-bio'),
-  vice:           document.getElementById('view-vice'),
-  exhibitions:    document.getElementById('view-exhibitions'),
-  independent:    document.getElementById('view-independent'),
-  'photo-detail': document.getElementById('view-photo-detail'),
-};
+/* ─── TOKENS ─────────────────────────────────────────────────── */
+:root {
+  --white:   #FFFFFF;
+  --off:     #F5F4F1;
+  --ink:     #111111;
+  --mid:     #df2531;
+  --rule:    #111111;
+  --rule-lt: #DEDEDE;
 
-function showView(id) {
-  Object.values(views).forEach(v => v && v.classList.remove('active'));
-  if (views[id]) views[id].classList.add('active');
-  window.scrollTo(0, 0);
-  closeMenu();
+  --display: 'Playfair Display SC', Georgia, serif;  /* all-caps contexts */
+  --serif:   'Playfair Display', Georgia, serif;      /* mixed-case headings */
+  --body:    'Newsreader', Georgia, serif;            /* body text, meta */
+
+  --margin:  clamp(1.5rem, 6vw, 6rem);
+  --max:     1280px;
 }
 
-function goBack() {
-  navStack.pop();
-  showView(navStack[navStack.length - 1] || 'landing');
+/* ─── BASE ───────────────────────────────────────────────────── */
+body {
+  font-family: var(--body);
+  background: var(--white);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
 }
 
-// ─── HAMBURGER ───────────────────────────────────────────────
-const hamburger   = document.getElementById('hamburger');
-const menuOverlay = document.getElementById('menu-overlay');
+.hidden { display: none !important; }
 
-function openMenu()  { hamburger.classList.add('open');    menuOverlay.classList.add('open'); }
-function closeMenu() { hamburger.classList.remove('open'); menuOverlay.classList.remove('open'); }
-
-hamburger.addEventListener('click', () =>
-  hamburger.classList.contains('open') ? closeMenu() : openMenu()
-);
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
-
-// ─── BASE URL ─────────────────────────────────────────────────
-const BASE = 'https://raw.githubusercontent.com/tal-benyakir/portfolio-images/main/images';
-
-function imgs(folder, filenames) {
-  return filenames.map(f => ({ src: `${BASE}/${folder}/${f}` }));
+/* ─── HAMBURGER ──────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; right: 0;
+  padding: 1.5rem var(--margin);
+  z-index: 100;
 }
 
-// ─── DATA ─────────────────────────────────────────────────────
-const photoData = {
-  // ── VICE ───────────────────────────────────────────────────
-  queer: {
-    title: 'Queer in the Dutch Countryside', tag: 'VICE', type: 'masonry',
-    items: imgs('vice/queer', [
-      '01 (1).jpg','01 (2).jpg','01 (3).jpg','01 (4).jpg','01 (5).jpg','01 (6).jpg',
-      '01 (7).jpg','01 (9).jpg','01 (10).jpg','01 (11).jpg','01 (12).jpg','01 (14).jpg',
-      '01 (15).jpg','01 (17).jpg','01 (21).jpg','001 (16).jpg'
-    ]),
-  },
-  glitz: {
-    title: 'From Glitz to Glory', tag: 'VICE', type: 'masonry',
-    items: imgs('vice/glitz', [
-      '0.jpg','1.jpg','2.jpg','3.jpg','4.jpg','5.jpg',
-      '7.jpg','8.jpg','9.jpg','10.jpg','11.jpg','12.jpg'
-    ]),
-  },
-  barbes: {
-    title: 'Histoires de Quartiers: Barbès', tag: 'VICE', type: 'masonry',
-    items: imgs('vice/barbes', [
-      '01 (1).jpg','01 (2).jpg','01 (3).jpg','01 (4).jpg','01 (5).jpg','01 (6).jpg','01 (7).jpg'
-    ]),
-  },
-  florence: {
-    title: 'Florence Road Concert', tag: 'VICE', type: 'masonry',
-    items: imgs('vice/florence', [
-      '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9.jpg','10.jpg'
-    ]),
-  },
-  arnhem: {
-    title: 'Arnhem Unfiltered', tag: 'VICE', type: 'masonry',
-    items: imgs('vice/arnhem', [
-      '01 (1).jpg','01 (2).jpg','01 (3).jpg','01 (4).jpg','01 (5).jpg','01 (6).jpg',
-      '01 (7).jpg','01 (8).jpg','01 (9).jpg','01 (10).jpg','01 (11).jpg','01 (12).jpg',
-      '01 (13).jpg','01 (14).jpg'
-    ]),
-  },
-  // ── EXHIBITIONS ────────────────────────────────────────────
-  ribs: {
-    title: 'Ribs', tag: 'Fotomuseum Amsterdam', type: 'masonry',
-    items: imgs('exhibitions/ribs', [
-      '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg'
-    ]),
-  },
-  kigali: {
-    title: 'Kigali Street Fashion', tag: 'Meervaart Theater', type: 'masonry',
-    items: imgs('exhibitions/kigali', [
-      '01 (1).JPG','01 (2).jpg','01 (3).jpg','01 (4).jpg'
-    ]),
-  },
-  stateofpower: {
-    title: 'The State of Power', tag: 'Meervaart Theater', type: 'masonry',
-    items: imgs('exhibitions/stateofpower', [
-      '01 (1).jpg','01 (2).jpg','01 (3).jpg','01 (4).jpg'
-    ]),
-  },
-  // ── INDEPENDENT ────────────────────────────────────────────
-  kennemerland: {
-    title: 'Kennemerland 2025', tag: null, type: 'strip',
-    items: imgs('independent/kennemerland', [
-      '1 (1).jpg','1 (2).jpg','1 (3).jpg','1 (4).jpg','1 (5).jpg',
-      '1 (6).jpg','1 (8).jpg','1 (10).jpg','1 (11).jpg'
-    ]),
-  },
-  iseo: {
-    title: 'Iseo 2025', tag: null, type: 'strip',
-    items: imgs('independent/iseo', [
-      '0.jpg','01.jpg','02.jpg','03.jpg','04.jpg','05.jpg','06.jpg','07.jpg','08.jpg','09.jpg'
-    ]),
-  },
-  zandvoort: {
-    title: 'Zandvoort 2023', tag: null, type: 'strip',
-    items: imgs('independent/zandvoort', [
-      '01-1.jpg','01-2.jpg','01-3.jpg','01-4.jpg','01-5.jpg','01-6.jpg'
-    ]),
-  },
-  // ── GALLERIES ──────────────────────────────────────────────
-  gallery_fashion: {
-    title: 'Fashion', tag: null, type: 'masonry',
-    items: imgs('galleries/fashion', [
-      '01 (1).jpg','01 (4).jpg','01 (5).jpg','01 (6).jpg','01 (7).jpg',
-      '01 (8).jpg','01 (9).jpg','01 (10).jpg','01 (11).jpg','01 (12).jpg'
-    ]),
-  },
-  gallery_documentary: {
-    title: 'Nightlife', tag: null, type: 'masonry',
-    items: imgs('galleries/documentary', [
-      '1-1.jpg','1-2.jpg','1-3.jpg','1-4.jpg','1-5.jpg','1-6.jpg','1-7.jpg','1-8.jpg','1-9.jpg',
-      '1-10.jpg','1-11.jpg','1-12.jpg','1-13.jpg',
-      '1-1-2.jpg','1-1-3.jpg','1-1-4.jpg',
-      '1-2-2.jpg','1-2-3.jpg','1-2-4.jpg',
-      '1-3-2.jpg','1-3-3.jpg','1-3-4.jpg',
-      '1-4-2.jpg','1-4-3.jpg','1-4-4.jpg',
-      '1-5-2.jpg','1-5-3.jpg',
-      '1-6-2.jpg','1-6-3.jpg',
-      '1-7-2.jpg'
-    ]),
-  },
-  gallery_street: {
-    title: 'Street Photography', tag: null, type: 'masonry',
-    items: imgs('galleries/street', [
-      '01 (1).jpg','01 (2).jpg','01 (3).jpg','01 (4).jpg','01 (5).jpg','01 (6).jpg','01 (7).jpg',
-      '01 (12).jpg','01 (13).jpg','01 (14).jpg','01 (15).jpg','01 (17).jpg','01 (18).jpg',
-      '01 (19).jpg','01 (20).JPG','01 (21).JPG','01 (23).JPG','01 (24).JPG',
-      '01 (25).JPG','01 (26).JPG','01 (27).jpg','01 (28).jpg'
-    ]),
-  },
-};
-
-// ─── COVER IMAGES ────────────────────────────────────────────
-const coverKeys = ['queer','glitz','barbes','florence','arnhem','ribs','kigali','stateofpower','gallery_fashion','gallery_documentary','gallery_street'];
-
-coverKeys.forEach(key => {
-  const el = document.getElementById('cover-' + key);
-  if (!el) return;
-  let src;
-  if (key === 'gallery_fashion')     src = `${BASE}/galleries/T1.jpg`;
-  else if (key === 'gallery_documentary') src = `${BASE}/galleries/T2.jpg`;
-  else if (key === 'gallery_street') src = `${BASE}/galleries/T3.jpg`;
-  else src = photoData[key]?.items?.[0]?.src;
-  if (!src) return;
-  const img = document.createElement('img');
-  img.src = src;
-  img.alt = '';
-  img.loading = 'lazy';
-  el.appendChild(img);
-});
-
-// ─── DRAG TO SCROLL ──────────────────────────────────────────
-function enableDragScroll(el) {
-  let isDown = false, startX, scrollLeft;
-  el.addEventListener('mousedown', e => {
-    isDown = true;
-    startX = e.pageX - el.offsetLeft;
-    scrollLeft = el.scrollLeft;
-  });
-  el.addEventListener('mouseleave', () => isDown = false);
-  el.addEventListener('mouseup',    () => isDown = false);
-  el.addEventListener('mousemove', e => {
-    if (!isDown) return;
-    e.preventDefault();
-    el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX);
-  });
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
 }
 
-// ─── RENDERERS ───────────────────────────────────────────────
-const detailTitle   = document.getElementById('detail-title');
-const detailTag     = document.getElementById('detail-tag');
-const detailContent = document.getElementById('detail-content');
-
-function renderDetail(key) {
-  const data = photoData[key];
-  if (!data) return;
-
-  detailTitle.textContent = data.title;
-  detailTag.textContent   = data.tag || '';
-  detailContent.innerHTML = '';
-
-  if (data.type === 'masonry') {
-    const grid = document.createElement('div');
-    grid.className = 'masonry';
-    data.items.forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'masonry-item';
-      const img = document.createElement('img');
-      img.src = item.src; img.alt = '';
-      img.loading = 'lazy';
-      div.appendChild(img);
-      grid.appendChild(div);
-    });
-    detailContent.appendChild(grid);
-  }
-
-  if (data.type === 'strip') {
-    const wrapper = document.createElement('div');
-    wrapper.style.paddingBottom = '4rem';
-    const stripDiv = document.createElement('div');
-    stripDiv.className = 'strip';
-    data.items.forEach(item => {
-      const img = document.createElement('img');
-      img.className = 'strip-img';
-      img.src = item.src; img.alt = '';
-      img.loading = 'lazy';
-      stripDiv.appendChild(img);
-    });
-    wrapper.appendChild(stripDiv);
-    detailContent.appendChild(wrapper);
-  }
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--ink);
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-function renderIndependent() {
-  const container = document.getElementById('independent-content');
-  if (!container) return;
-  container.innerHTML = '';
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-  ['kennemerland', 'iseo', 'zandvoort'].forEach(key => {
-    const data = photoData[key];
-    const section = document.createElement('div');
-    section.className = 'strip-section';
-
-    const title = document.createElement('div');
-    title.className = 'strip-title';
-    title.textContent = data.title;
-    section.appendChild(title);
-
-    const strip = document.createElement('div');
-    strip.className = 'strip';
-    data.items.forEach(item => {
-      const img = document.createElement('img');
-      img.className = 'strip-img';
-      img.src = item.src; img.alt = '';
-      img.loading = 'lazy';
-      strip.appendChild(img);
-    });
-    section.appendChild(strip);
-    enableDragScroll(strip);
-    container.appendChild(section);
-  });
+/* ─── MENU OVERLAY ───────────────────────────────────────────── */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--white);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--margin);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
 }
 
-// ─── CLICK WIRING ────────────────────────────────────────────
-document.addEventListener('click', e => {
-  const el = e.target.closest('[data-nav]');
-  if (!el) return;
-  e.preventDefault();
+.menu-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
 
-  const target = el.dataset.nav;
-  const ctx    = el.dataset.ctx;
+.menu-overlay a {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-style: normal;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: var(--ink);
+  transition: color 0.2s;
+}
 
-  if (target === 'back') { goBack(); return; }
+.menu-overlay a:hover { color: #999; }
 
-  if (target === 'independent') {
-    navStack.push('independent');
-    showView('independent');
-    renderIndependent();
-    return;
-  }
+.menu-overlay .menu-meta {
+  margin-top: 3rem;
+  font-family: var(--body);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
 
-  if (target === 'photo-detail' && ctx) {
-    navStack.push('photo-detail');
-    showView('photo-detail');
-    renderDetail(ctx);
-    return;
-  }
+/* ─── PAGE SHELL ─────────────────────────────────────────────── */
+.page { display: none; min-height: 100vh; }
+.page.active { display: block; }
 
-  navStack = [target];
-  showView(target);
-});
+/* ─── LANDING ────────────────────────────────────────────────── */
+.landing {
+  min-height: 100vh;
+  position: relative;
+  padding: var(--margin);
+}
 
-// ─── INIT ─────────────────────────────────────────────────────
-navStack = ['landing'];
-showView('landing');
+.landing-top {
+  position: absolute;
+  bottom: clamp(2rem, 5vh, 4rem);
+  left: var(--margin);
+  z-index: 1;
+}
+
+.landing-name {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.02em;
+  line-height: 1.0;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+
+.landing-desc {
+  font-family: var(--body);
+  font-size: clamp(0.7rem, 1.4vw, 0.8rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+/* Stacked nav — right side of page, vertically centred */
+.landing-nav {
+  position: absolute;
+  top: 50%;
+  right: var(--margin);
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.landing-nav a {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2.4vw, 2.1rem);
+  font-weight: 400;
+  font-style: normal;
+  color: var(--ink);
+  white-space: nowrap;
+  pointer-events: all;
+  transition: color 0.2s;
+}
+
+.landing-nav a:hover { color: #999; }
+
+/* ─── INNER PAGE WRAPPER ─────────────────────────────────────── */
+.page-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--margin);
+}
+
+/* ─── PAGE HEADER ────────────────────────────────────────────── */
+.page-header {
+  padding: 5rem 0 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.page-header h1 {
+  font-family: var(--display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.page-back {
+  font-family: var(--body);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  cursor: pointer;
+  font-style: italic;
+  transition: color 0.2s;
+}
+
+.page-back:hover { color: var(--ink); }
+
+/* ─── SECTION LABEL ──────────────────────────────────────────── */
+.section-label {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 2rem;
+  margin-top: 3rem;
+}
+
+.section-label:first-of-type { margin-top: 0; }
+
+/* ─── ARTICLES ───────────────────────────────────────────────── */
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-left: 1px solid var(--rule);
+  margin-bottom: 6rem;
+}
+
+.article-card {
+  display: block;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.2s;
+}
+
+.article-card:hover { background: var(--off); }
+
+.article-card-img-wrap {
+  width: 100%;
+  aspect-ratio: 3/2;
+  overflow: hidden;
+  background: var(--off);
+  border-bottom: 1px solid var(--rule);
+}
+
+.article-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.article-card:hover .article-card-img { transform: scale(1.03); }
+
+.article-card-body {
+  padding: 1rem 1rem 1.25rem;
+}
+
+.article-card-meta {
+  font-family: var(--body);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 0.5rem;
+}
+
+.article-card-title {
+  font-family: var(--serif);
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  font-weight: 400;
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
+  color: var(--ink);
+  text-transform: none;
+}
+
+.article-card-excerpt {
+  font-family: var(--body);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: #444;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── PHOTOGRAPHY ────────────────────────────────────────────── */
+
+.photo-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-left: 1px solid var(--rule);
+  margin-bottom: 3rem;
+}
+
+.photo-cat-card {
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 2rem 1.25rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.photo-cat-card:hover { background: var(--off); }
+
+.photo-cat-placeholder {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: var(--off);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.photo-cat-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.photo-cat-card:hover .photo-cat-placeholder img { transform: scale(1.03); }
+
+.photo-cat-title {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+}
+
+.photo-cat-count {
+  font-family: var(--body);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+/* Project grid */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-left: 1px solid var(--rule);
+  margin-bottom: 3rem;
+}
+
+.project-card {
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+  overflow: hidden;
+  transition: background 0.2s;
+}
+
+.project-card:hover { background: var(--off); }
+
+.project-card-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+  background: var(--off);
+}
+
+.project-card:hover .project-card-img { transform: scale(1.03); }
+
+.project-card-placeholder {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: var(--off);
+  overflow: hidden;
+}
+
+.project-card-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .project-card-placeholder img { transform: scale(1.03); }
+
+.project-card-info {
+  padding: 0.85rem 1rem 1.1rem;
+  border-top: 1px solid var(--rule-lt);
+}
+
+.project-card-tag {
+  font-family: var(--body);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 0.3rem;
+}
+
+.project-card-title {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.3;
+}
+
+/* Gallery grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-left: 1px solid var(--rule);
+  margin-bottom: 6rem;
+}
+
+.gallery-card {
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 2rem 1.25rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.gallery-card:hover { background: var(--off); }
+
+.gallery-card-placeholder {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: var(--off);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.gallery-card-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.gallery-card:hover .gallery-card-placeholder img { transform: scale(1.03); }
+
+.gallery-card-title {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* ─── MASONRY VIEW ───────────────────────────────────────────── */
+.masonry {
+  columns: 3;
+  column-gap: 2px;
+  margin-bottom: 6rem;
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 2px;
+}
+
+.masonry-item img {
+  width: 100%;
+  display: block;
+}
+
+.masonry-placeholder {
+  break-inside: avoid;
+  margin-bottom: 2px;
+  background: var(--off);
+  width: 100%;
+}
+
+/* ─── INDEPENDENT STRIPS ─────────────────────────────────────── */
+.strip-section {
+  margin-bottom: 4rem;
+}
+
+.strip-title {
+  font-family: var(--serif);
+  font-size: 0.85rem;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: var(--mid);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule-lt);
+}
+
+.strip {
+  display: flex;
+  gap: 3px;
+  overflow-x: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink) transparent;
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+}
+
+.strip:active { cursor: grabbing; }
+
+.strip::-webkit-scrollbar { height: 3px; }
+.strip::-webkit-scrollbar-track { background: transparent; }
+.strip::-webkit-scrollbar-thumb { background: var(--ink); }
+
+.strip-img {
+  height: 320px;
+  width: auto;
+  flex-shrink: 0;
+  object-fit: cover;
+  display: block;
+}
+
+.strip-placeholder {
+  height: 320px;
+  background: var(--off);
+  flex-shrink: 0;
+}
+
+/* ─── BIO & CONTACT ──────────────────────────────────────────── */
+.bio-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(3rem, 6vw, 6rem);
+  padding-bottom: 6rem;
+  align-items: start;
+}
+
+.bio-text p {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+
+.bio-text p:last-child { margin-bottom: 0; }
+
+.bio-links { margin-top: 2.5rem; }
+
+.bio-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--rule-lt);
+  transition: color 0.2s;
+}
+
+.bio-link:last-child { border-bottom: 1px solid var(--rule-lt); }
+.bio-link:hover { color: var(--mid); }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .articles-grid,
+  .photo-cat-grid,
+  .project-grid,
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .masonry { columns: 2; }
+}
+
+@media (max-width: 600px) {
+  .articles-grid { grid-template-columns: 1fr; }
+  .photo-cat-grid,
+  .project-grid,
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .masonry { columns: 2; }
+  .bio-layout { grid-template-columns: 1fr; gap: 3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
