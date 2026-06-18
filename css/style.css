@@ -121,7 +121,7 @@ nav {
 
 @media (max-width: 600px) {
   .landing-top {
-    bottom: clamp(6rem, 15vh, 10rem);
+    bottom: clamp(10rem, 25vh, 16rem);
   }
 }
 
