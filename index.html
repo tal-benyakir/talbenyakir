@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tal Ben Yakir</title>
+  <meta name="description" content="Journalist and photographer based in Paris.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* hidden utility */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<!-- ─── HAMBURGER NAV ──────────────────────────────────────── -->
+<nav>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ─── MENU OVERLAY ──────────────────────────────────────── -->
+<div class="menu-overlay" id="menu-overlay">
+  <div>
+    <a href="#" data-page="landing">Home</a>
+    <a href="#" data-page="articles">Articles</a>
+    <a href="#" data-page="photography">Photography</a>
+    <a href="#" data-page="bio">Bio &amp; Contact</a>
+  </div>
+  <div class="menu-meta">Tal Ben Yakir &mdash; Paris</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- LANDING                                                    -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="page-landing" class="page active">
+  <div class="landing">
+    <div>
+      <h1 class="landing-name">Tal Ben Yakir</h1>
+      <p class="landing-desc">Journalist and photographer based in Paris</p>
+      <nav class="landing-nav">
+        <a href="#" data-page="articles">Articles</a>
+        <a href="#" data-page="photography">Photography</a>
+        <a href="#" data-page="bio">Bio &amp; Contact</a>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- ARTICLES                                                   -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="page-articles" class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <h1>Articles</h1>
+      <span class="page-back" data-page="landing">← Home</span>
+    </div>
+
+    <div class="articles-grid">
+
+      <a class="article-card" href="https://viceint.substack.com/p/ai-boyfriend" target="_blank" rel="noopener">
+        <img class="article-card-img" src="https://substackcdn.com/image/fetch/w_1200,h_675,c_fill,f_jpg,q_auto:good/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F119cf6f5-f50d-4454-b355-cf3196eb3583_1170x1542.jpeg" alt="I Had an AI Boyfriend for One Month" loading="lazy">
+        <div class="article-card-overlay">
+          <div class="article-card-pub">Vice &mdash; Mar 2026</div>
+          <div class="article-card-title">I Had an AI Boyfriend for One Month</div>
+        </div>
+      </a>
+
+      <a class="article-card" href="https://viceint.substack.com/p/young-venezuelans-on-the-crisis-in" target="_blank" rel="noopener">
+        <img class="article-card-img" src="https://substackcdn.com/image/fetch/w_1200,h_675,c_fill,f_jpg,q_auto:good/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4628ed15-9899-4456-93be-8590e7246c50_4320x4320.png" alt="Young Venezuelans on the Crisis in Their Country" loading="lazy">
+        <div class="article-card-overlay">
+          <div class="article-card-pub">Vice &mdash; Jan 2026</div>
+          <div class="article-card-title">Young Venezuelans on the Crisis in Their Country</div>
+        </div>
+      </a>
+
+      <a class="article-card" href="https://viceint.substack.com/p/what-the-surrealists-can-teach-us" target="_blank" rel="noopener">
+        <img class="article-card-img" src="https://substackcdn.com/image/fetch/w_1200,h_675,c_fill,f_jpg,q_auto:good/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1a4dde2e-95e0-43f9-85e5-7d16c6d5cbf5_2101x2700.png" alt="What the Surrealists Can Teach Us About Freedom and Resistance" loading="lazy">
+        <div class="article-card-overlay">
+          <div class="article-card-pub">Vice &mdash; Oct 2025</div>
+          <div class="article-card-title">What the Surrealists Can Teach Us About Freedom and Resistance</div>
+        </div>
+      </a>
+
+      <a class="article-card" href="https://viceint.substack.com/p/a-new-wave-of-moroccon-youth-is-rising" target="_blank" rel="noopener">
+        <img class="article-card-img" src="https://substackcdn.com/image/fetch/w_1200,h_675,c_fill,f_jpg,q_auto:good/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffeef7ad3-a45b-4481-b2ff-2ff148c7dadf_2101x2700.png" alt="A New Wave of Moroccan Youth Is Rising Up" loading="lazy">
+        <div class="article-card-overlay">
+          <div class="article-card-pub">Vice &mdash; Oct 2025</div>
+          <div class="article-card-title">A New Wave of Moroccan Youth Is Rising Up</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- PHOTOGRAPHY                                                -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="page-photography" class="page">
+  <div class="page-inner">
+
+    <!-- Series grid view -->
+    <div id="photo-grid-view">
+      <div class="page-header">
+        <h1>Photography</h1>
+        <span class="page-back" data-page="landing">← Home</span>
+      </div>
+
+      <div class="photo-grid">
+
+        <div class="photo-series" data-series="queer">
+          <div class="photo-series-placeholder"></div>
+          <div class="photo-series-info">
+            <div class="photo-series-title">Queer in the Dutch Countryside</div>
+            <div class="photo-series-tag">Vice</div>
+          </div>
+        </div>
+
+        <div class="photo-series" data-series="concert">
+          <div class="photo-series-placeholder"></div>
+          <div class="photo-series-info">
+            <div class="photo-series-title">Concert Photography</div>
+            <div class="photo-series-tag">Vice</div>
+          </div>
+        </div>
+
+        <div class="photo-series" data-series="fashion">
+          <div class="photo-series-placeholder"></div>
+          <div class="photo-series-info">
+            <div class="photo-series-title">Fashion</div>
+            <div class="photo-series-tag">Vice</div>
+          </div>
+        </div>
+
+        <div class="photo-series" data-series="street">
+          <div class="photo-series-placeholder"></div>
+          <div class="photo-series-info">
+            <div class="photo-series-title">Street Photography</div>
+            <div class="photo-series-tag">Vice</div>
+          </div>
+        </div>
+
+        <div class="photo-series" data-series="foam">
+          <div class="photo-series-placeholder"></div>
+          <div class="photo-series-info">
+            <div class="photo-series-title">Foam</div>
+            <div class="photo-series-tag">Foam Museum</div>
+          </div>
+        </div>
+
+        <div class="photo-series" data-series="meervaart">
+          <div class="photo-series-placeholder"></div>
+          <div class="photo-series-info">
+            <div class="photo-series-title">Meervaart Theater</div>
+            <div class="photo-series-tag">Meervaart</div>
+          </div>
+        </div>
+
+        <div class="photo-series" data-series="independent">
+          <div class="photo-series-placeholder"></div>
+          <div class="photo-series-info">
+            <div class="photo-series-title">Independent Work</div>
+            <div class="photo-series-tag"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Series detail view -->
+    <div id="series-detail" class="series-detail">
+      <div class="page-header">
+        <div>
+          <h1 id="series-title"></h1>
+          <p style="margin-top:0.3rem; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--mid);" id="series-tag"></p>
+        </div>
+        <span class="page-back" id="series-back">← All series</span>
+      </div>
+      <div class="masonry" id="masonry-grid"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- BIO & CONTACT                                              -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="page-bio" class="page">
+  <div class="page-inner">
+    <div class="page-header">
+      <h1>Bio &amp; Contact</h1>
+      <span class="page-back" data-page="landing">← Home</span>
+    </div>
+
+    <div class="bio-layout">
+      <div class="bio-text">
+        <p>
+          Tal Ben Yakir is a journalist and photographer based in Paris. She covers populism,
+          disinformation, and the geopolitics of technology, with work published in Vice Netherlands
+          and Vice France.
+        </p>
+        <p>
+          She is currently completing a master's degree at Sciences Po Paris (PSIA),
+          concentrating in Global Risks and the Middle East.
+        </p>
+        <p>
+          Her photography spans documentary, fashion, and institutional work, including
+          projects for Foam Museum and Meervaart Theater.
+        </p>
+
+        <div class="bio-links">
+          <a class="bio-link" href="mailto:hello@talbenyakir.com">
+            hello@talbenyakir.com
+          </a>
+          <a class="bio-link" href="https://instagram.com" target="_blank" rel="noopener">
+            Instagram
+          </a>
+          <a class="bio-link" href="/cv.pdf" target="_blank" rel="noopener">
+            Download CV
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <form class="contact-form" id="contact-form">
+          <div class="form-field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+          </div>
+          <div class="form-field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
