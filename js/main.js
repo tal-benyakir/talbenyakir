@@ -1,165 +1,280 @@
-// ─── ROUTER ──────────────────────────────────────────────────
-const pages = {
-  landing:     document.getElementById('page-landing'),
-  articles:    document.getElementById('page-articles'),
-  photography: document.getElementById('page-photography'),
-  bio:         document.getElementById('page-bio'),
+// ─── STATE ───────────────────────────────────────────────────
+// Stack of views: each entry is { view, context }
+let navStack = [];
+
+// ─── VIEW REGISTRY ───────────────────────────────────────────
+const views = {
+  landing:        document.getElementById('view-landing'),
+  articles:       document.getElementById('view-articles'),
+  photography:    document.getElementById('view-photography'),
+  bio:            document.getElementById('view-bio'),
+  vice:           document.getElementById('view-vice'),
+  exhibitions:    document.getElementById('view-exhibitions'),
+  independent:    document.getElementById('view-independent'),
+  'photo-detail': document.getElementById('view-photo-detail'),
 };
 
-const seriesDetail = document.getElementById('series-detail');
-const photoGrid    = document.getElementById('photo-grid-view');
-
-function showPage(id) {
-  Object.values(pages).forEach(p => p && p.classList.remove('active'));
-  if (pages[id]) pages[id].classList.add('active');
-  closeMenu();
+function showView(id, pushState = true) {
+  Object.values(views).forEach(v => v && v.classList.remove('active'));
+  if (views[id]) views[id].classList.add('active');
   window.scrollTo(0, 0);
+  closeMenu();
+}
 
-  // Reset series detail if leaving photography
-  if (id !== 'photography') {
-    seriesDetail && seriesDetail.classList.remove('active');
-    photoGrid    && photoGrid.classList.remove('hidden');
+function navigateTo(id, context) {
+  navStack.push(id);
+  showView(id);
+  if (context) renderDetail(id, context);
+}
+
+function goBack() {
+  navStack.pop();
+  const prev = navStack[navStack.length - 1] || 'landing';
+  showView(prev);
+  // Re-render if needed
+  if (prev === 'photo-detail') {
+    // handled by renderDetail already in stack — just show
   }
 }
 
 // ─── HAMBURGER ───────────────────────────────────────────────
-const hamburger    = document.getElementById('hamburger');
-const menuOverlay  = document.getElementById('menu-overlay');
+const hamburger   = document.getElementById('hamburger');
+const menuOverlay = document.getElementById('menu-overlay');
 
-function openMenu() {
-  hamburger.classList.add('open');
-  menuOverlay.classList.add('open');
-}
+function openMenu()  { hamburger.classList.add('open');    menuOverlay.classList.add('open'); }
+function closeMenu() { hamburger.classList.remove('open'); menuOverlay.classList.remove('open'); }
 
-function closeMenu() {
-  hamburger.classList.remove('open');
-  menuOverlay.classList.remove('open');
-}
+hamburger.addEventListener('click', () =>
+  hamburger.classList.contains('open') ? closeMenu() : openMenu()
+);
 
-hamburger.addEventListener('click', () => {
-  hamburger.classList.contains('open') ? closeMenu() : openMenu();
-});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
-// Close on Escape
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeMenu();
-});
-
-// ─── LANDING NAV ─────────────────────────────────────────────
-document.querySelectorAll('[data-page]').forEach(el => {
-  el.addEventListener('click', e => {
-    e.preventDefault();
-    showPage(el.dataset.page);
-  });
-});
-
-// ─── SERIES DETAIL ───────────────────────────────────────────
-const seriesTitle = document.getElementById('series-title');
-const seriesTag   = document.getElementById('series-tag');
-const masonryGrid = document.getElementById('masonry-grid');
-
-// Series data — replace placeholder heights with real images when you have them
-const seriesData = {
+// ─── DATA ─────────────────────────────────────────────────────
+const photoData = {
+  // ── VICE PROJECTS ──────────────────────────────────────────
   queer: {
     title: 'Queer in the Dutch Countryside',
     tag: 'VICE',
-    // Each item: { src, alt } or { height } for placeholder
-    items: [
-      { height: 420 }, { height: 300 }, { height: 380 },
-      { height: 310 }, { height: 460 }, { height: 280 },
-    ]
+    type: 'masonry',
+    items: [{ h: 420 }, { h: 300 }, { h: 380 }, { h: 310 }, { h: 460 }, { h: 280 }],
   },
-  concert: {
-    title: 'Concert Photography',
+  glitz: {
+    title: 'From Glitz to Glory',
     tag: 'VICE',
-    items: [
-      { height: 360 }, { height: 440 }, { height: 310 },
-      { height: 390 }, { height: 280 }, { height: 420 },
-    ]
+    type: 'masonry',
+    items: [{ h: 380 }, { h: 440 }, { h: 300 }, { h: 410 }, { h: 350 }, { h: 290 }],
   },
-  fashion: {
-    title: 'Fashion',
+  barbes: {
+    title: 'Histoires de Quartiers: Barbès',
     tag: 'VICE',
-    items: [
-      { height: 480 }, { height: 320 }, { height: 400 },
-      { height: 290 }, { height: 460 }, { height: 350 },
-    ]
+    type: 'masonry',
+    items: [{ h: 400 }, { h: 320 }, { h: 460 }, { h: 280 }, { h: 390 }, { h: 340 }],
   },
-  street: {
-    title: 'Street Photography',
+  florence: {
+    title: 'Florence Road Concert',
     tag: 'VICE',
-    items: [
-      { height: 340 }, { height: 420 }, { height: 300 },
-      { height: 400 }, { height: 360 }, { height: 280 },
-    ]
+    type: 'masonry',
+    items: [{ h: 360 }, { h: 450 }, { h: 310 }, { h: 420 }, { h: 280 }, { h: 400 }],
   },
-  foam: {
-    title: 'Foam',
-    tag: 'FOAM MUSEUM',
-    items: [
-      { height: 400 }, { height: 320 }, { height: 460 },
-      { height: 350 }, { height: 390 }, { height: 310 },
-    ]
+  arnhem: {
+    title: 'Arnhem Unfiltered',
+    tag: 'VICE',
+    type: 'masonry',
+    items: [{ h: 440 }, { h: 300 }, { h: 380 }, { h: 460 }, { h: 320 }, { h: 350 }],
   },
-  meervaart: {
-    title: 'Meervaart Theater',
-    tag: 'MEERVAART',
-    items: [
-      { height: 380 }, { height: 450 }, { height: 310 },
-      { height: 420 }, { height: 300 }, { height: 370 },
-    ]
+  // ── EXHIBITIONS ────────────────────────────────────────────
+  ribs: {
+    title: 'Ribs',
+    tag: 'Fotomuseum Amsterdam',
+    type: 'masonry',
+    items: [{ h: 480 }, { h: 320 }, { h: 400 }, { h: 360 }, { h: 440 }, { h: 290 }],
   },
-  independent: {
-    title: 'Independent Work',
+  kigali: {
+    title: 'Kigali Street Fashion',
+    tag: 'Meervaart Theater',
+    type: 'masonry',
+    items: [{ h: 420 }, { h: 380 }, { h: 300 }, { h: 460 }, { h: 310 }, { h: 390 }],
+  },
+  stateofpower: {
+    title: 'The State of Power',
+    tag: 'Meervaart Theater',
+    type: 'masonry',
+    items: [{ h: 350 }, { h: 440 }, { h: 310 }, { h: 400 }, { h: 280 }, { h: 420 }],
+  },
+  // ── INDEPENDENT ────────────────────────────────────────────
+  kennemerland: {
+    title: 'Kennemerland 2025',
     tag: null,
-    items: [
-      { height: 440 }, { height: 310 }, { height: 390 },
-      { height: 280 }, { height: 460 }, { height: 340 },
-      { height: 320 }, { height: 400 }, { height: 360 },
-    ]
+    type: 'strip',
+    items: [{ w: 480 }, { w: 320 }, { w: 560 }, { w: 400 }, { w: 480 }],
+  },
+  iseo: {
+    title: 'Iseo 2025',
+    tag: null,
+    type: 'strip',
+    items: [{ w: 520 }, { w: 400 }, { w: 480 }, { w: 360 }, { w: 440 }],
+  },
+  zandvoort: {
+    title: 'Zandvoort 2023',
+    tag: null,
+    type: 'strip',
+    items: [{ w: 460 }, { w: 380 }, { w: 520 }, { w: 420 }, { w: 360 }],
+  },
+  greece: {
+    title: 'Greece 2024',
+    tag: null,
+    type: 'strip',
+    items: [{ w: 500 }, { w: 360 }, { w: 480 }, { w: 440 }, { w: 400 }],
+  },
+  // ── GALLERIES ──────────────────────────────────────────────
+  gallery_fashion: {
+    title: 'Fashion',
+    tag: null,
+    type: 'masonry',
+    items: [{ h: 480 }, { h: 320 }, { h: 400 }, { h: 360 }, { h: 440 }, { h: 300 }, { h: 380 }, { h: 460 }, { h: 290 }],
+  },
+  gallery_documentary: {
+    title: 'Documentary',
+    tag: null,
+    type: 'masonry',
+    items: [{ h: 420 }, { h: 350 }, { h: 460 }, { h: 310 }, { h: 390 }, { h: 440 }, { h: 280 }, { h: 400 }, { h: 320 }],
+  },
+  gallery_street: {
+    title: 'Street Photography',
+    tag: null,
+    type: 'masonry',
+    items: [{ h: 400 }, { h: 460 }, { h: 310 }, { h: 440 }, { h: 360 }, { h: 290 }, { h: 420 }, { h: 340 }, { h: 380 }],
   },
 };
 
-document.querySelectorAll('[data-series]').forEach(el => {
-  el.addEventListener('click', () => {
-    const key  = el.dataset.series;
-    const data = seriesData[key];
-    if (!data) return;
+// ─── DETAIL RENDERER ─────────────────────────────────────────
+const detailTitle   = document.getElementById('detail-title');
+const detailTag     = document.getElementById('detail-tag');
+const detailContent = document.getElementById('detail-content');
 
-    // Populate header
-    seriesTitle.textContent = data.title;
-    seriesTag.textContent   = data.tag || '';
+function renderDetail(view, key) {
+  const data = photoData[key];
+  if (!data) return;
 
-    // Build masonry
-    masonryGrid.innerHTML = '';
+  detailTitle.textContent = data.title;
+  detailTag.textContent   = data.tag || '';
+  detailContent.innerHTML = '';
+
+  if (data.type === 'masonry') {
+    const grid = document.createElement('div');
+    grid.className = 'masonry';
     data.items.forEach(item => {
       const div = document.createElement('div');
       if (item.src) {
         div.className = 'masonry-item';
         const img = document.createElement('img');
-        img.src = item.src;
-        img.alt = item.alt || '';
+        img.src = item.src; img.alt = '';
         div.appendChild(img);
       } else {
         div.className = 'masonry-placeholder';
-        div.style.height = item.height + 'px';
+        div.style.height = item.h + 'px';
       }
-      masonryGrid.appendChild(div);
+      grid.appendChild(div);
     });
+    detailContent.appendChild(grid);
+  }
 
-    photoGrid.classList.add('hidden');
-    seriesDetail.classList.add('active');
-    window.scrollTo(0, 0);
+  if (data.type === 'strip') {
+    // Independent: each item is a named strip
+    const wrapper = document.createElement('div');
+    wrapper.style.paddingBottom = '4rem';
+    const stripDiv = document.createElement('div');
+    stripDiv.className = 'strip';
+    data.items.forEach(item => {
+      if (item.src) {
+        const img = document.createElement('img');
+        img.className = 'strip-img';
+        img.src = item.src; img.alt = '';
+        stripDiv.appendChild(img);
+      } else {
+        const ph = document.createElement('div');
+        ph.className = 'strip-placeholder';
+        ph.style.width = item.w + 'px';
+        stripDiv.appendChild(ph);
+      }
+    });
+    wrapper.appendChild(stripDiv);
+    detailContent.appendChild(wrapper);
+  }
+}
+
+// ─── INDEPENDENT RENDERER ────────────────────────────────────
+// Independent page shows all strips at once, not via detail view
+function renderIndependent() {
+  const container = document.getElementById('independent-content');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const strips = ['kennemerland', 'iseo', 'zandvoort', 'greece'];
+  strips.forEach(key => {
+    const data = photoData[key];
+    const section = document.createElement('div');
+    section.className = 'strip-section';
+
+    const title = document.createElement('div');
+    title.className = 'strip-title';
+    title.textContent = data.title;
+    section.appendChild(title);
+
+    const strip = document.createElement('div');
+    strip.className = 'strip';
+    data.items.forEach(item => {
+      if (item.src) {
+        const img = document.createElement('img');
+        img.className = 'strip-img';
+        img.src = item.src; img.alt = '';
+        strip.appendChild(img);
+      } else {
+        const ph = document.createElement('div');
+        ph.className = 'strip-placeholder';
+        ph.style.width = item.w + 'px';
+        strip.appendChild(ph);
+      }
+    });
+    section.appendChild(strip);
+    container.appendChild(section);
   });
+}
+
+// ─── CLICK WIRING ────────────────────────────────────────────
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-nav]');
+  if (!el) return;
+  e.preventDefault();
+
+  const target = el.dataset.nav;
+  const ctx    = el.dataset.ctx;
+
+  if (target === 'back') {
+    goBack();
+    return;
+  }
+
+  if (target === 'independent') {
+    navStack.push('independent');
+    showView('independent');
+    renderIndependent();
+    return;
+  }
+
+  if (target === 'photo-detail' && ctx) {
+    navStack.push('photo-detail');
+    showView('photo-detail');
+    renderDetail('photo-detail', ctx);
+    return;
+  }
+
+  navStack = [target];
+  navigateTo(target);
 });
 
-document.getElementById('series-back').addEventListener('click', () => {
-  seriesDetail.classList.remove('active');
-  photoGrid.classList.remove('hidden');
-  window.scrollTo(0, 0);
-});
-
-// ─── CONTACT FORM ─────────────────────────────────────────────
+// ─── CONTACT FORM ────────────────────────────────────────────
 const form = document.getElementById('contact-form');
 if (form) {
   form.addEventListener('submit', e => {
@@ -167,13 +282,10 @@ if (form) {
     const btn = form.querySelector('.form-submit');
     btn.textContent = 'Sent';
     btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = 'Send';
-      btn.disabled = false;
-      form.reset();
-    }, 3000);
+    setTimeout(() => { btn.textContent = 'Send'; btn.disabled = false; form.reset(); }, 3000);
   });
 }
 
 // ─── INIT ─────────────────────────────────────────────────────
-showPage('landing');
+navStack = ['landing'];
+showView('landing');
