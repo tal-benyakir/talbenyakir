@@ -39,7 +39,7 @@ hamburger.addEventListener('click', () =>
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
 // ─── BASE URL ─────────────────────────────────────────────────
-const BASE = 'https://raw.githubusercontent.com/tal-benyakir/portfolio-images/main/images';
+const BASE = 'https://cdn.jsdelivr.net/gh/tal-benyakir/portfolio-images@main/images';
 
 function imgs(folder, filenames) {
   return filenames.map(f => ({ src: `${BASE}/${folder}/${f}` }));
