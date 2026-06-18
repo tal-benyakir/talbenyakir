@@ -266,6 +266,20 @@ function renderIndependent() {
     });
     section.appendChild(strip);
     enableDragScroll(strip);
+
+    const arrowLeft = document.createElement('button');
+    arrowLeft.className = 'strip-arrow strip-arrow-left';
+    arrowLeft.innerHTML = '&#8249;';
+    arrowLeft.addEventListener('click', () => strip.scrollBy({ left: -400, behavior: 'smooth' }));
+
+    const arrowRight = document.createElement('button');
+    arrowRight.className = 'strip-arrow strip-arrow-right';
+    arrowRight.innerHTML = '&#8250;';
+    arrowRight.addEventListener('click', () => strip.scrollBy({ left: 400, behavior: 'smooth' }));
+
+    section.appendChild(arrowLeft);
+    section.appendChild(arrowRight);
+
     container.appendChild(section);
   });
 }
