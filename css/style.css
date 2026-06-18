@@ -453,13 +453,13 @@ nav {
 /* ─── MASONRY VIEW ───────────────────────────────────────────── */
 .masonry {
   columns: 3;
-  column-gap: 2px;
+  column-gap: 1.5rem;
   margin-bottom: 6rem;
 }
 
 .masonry-item {
   break-inside: avoid;
-  margin-bottom: 2px;
+  margin-bottom: 1.5rem;
 }
 
 .masonry-item img {
