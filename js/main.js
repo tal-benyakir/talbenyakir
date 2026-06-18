@@ -155,6 +155,38 @@ const photoData = {
   },
 };
 
+// ─── COVER IMAGES ────────────────────────────────────────────
+const coverKeys = ['queer','glitz','barbes','florence','arnhem','ribs','kigali','stateofpower','gallery_fashion','gallery_documentary','gallery_street'];
+
+coverKeys.forEach(key => {
+  const el = document.getElementById('cover-' + key);
+  if (!el) return;
+  const src = photoData[key]?.items?.[0]?.src;
+  if (!src) return;
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = '';
+  img.loading = 'lazy';
+  el.appendChild(img);
+});
+
+// ─── DRAG TO SCROLL ──────────────────────────────────────────
+function enableDragScroll(el) {
+  let isDown = false, startX, scrollLeft;
+  el.addEventListener('mousedown', e => {
+    isDown = true;
+    startX = e.pageX - el.offsetLeft;
+    scrollLeft = el.scrollLeft;
+  });
+  el.addEventListener('mouseleave', () => isDown = false);
+  el.addEventListener('mouseup',    () => isDown = false);
+  el.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX);
+  });
+}
+
 // ─── RENDERERS ───────────────────────────────────────────────
 const detailTitle   = document.getElementById('detail-title');
 const detailTag     = document.getElementById('detail-tag');
@@ -225,6 +257,7 @@ function renderIndependent() {
       strip.appendChild(img);
     });
     section.appendChild(strip);
+    enableDragScroll(strip);
     container.appendChild(section);
   });
 }
