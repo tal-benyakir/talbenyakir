@@ -38,26 +38,121 @@ hamburger.addEventListener('click', () =>
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
+// ─── BASE URL ─────────────────────────────────────────────────
+const BASE = 'https://raw.githubusercontent.com/tal-benyakir/portfolio-images/main/images';
+
+function imgs(folder, filenames) {
+  return filenames.map(f => ({ src: `${BASE}/${folder}/${f}` }));
+}
+
 // ─── DATA ─────────────────────────────────────────────────────
 const photoData = {
   // ── VICE ───────────────────────────────────────────────────
-  queer:       { title: 'Queer in the Dutch Countryside', tag: 'VICE',               type: 'masonry', items: [{ h: 420 }, { h: 300 }, { h: 380 }, { h: 310 }, { h: 460 }, { h: 280 }] },
-  glitz:       { title: 'From Glitz to Glory',            tag: 'VICE',               type: 'masonry', items: [{ h: 380 }, { h: 440 }, { h: 300 }, { h: 410 }, { h: 350 }, { h: 290 }] },
-  barbes:      { title: 'Histoires de Quartiers: Barbès', tag: 'VICE',               type: 'masonry', items: [{ h: 400 }, { h: 320 }, { h: 460 }, { h: 280 }, { h: 390 }, { h: 340 }] },
-  florence:    { title: 'Florence Road Concert',          tag: 'VICE',               type: 'masonry', items: [{ h: 360 }, { h: 450 }, { h: 310 }, { h: 420 }, { h: 280 }, { h: 400 }] },
-  arnhem:      { title: 'Arnhem Unfiltered',              tag: 'VICE',               type: 'masonry', items: [{ h: 440 }, { h: 300 }, { h: 380 }, { h: 460 }, { h: 320 }, { h: 350 }] },
+  queer: {
+    title: 'Queer in the Dutch Countryside', tag: 'VICE', type: 'masonry',
+    items: imgs('vice/queer', [
+      '01 (1).jpg','01 (2).jpg','01 (3).jpg','01 (4).jpg','01 (5).jpg','01 (6).jpg',
+      '01 (7).jpg','01 (9).jpg','01 (10).jpg','01 (11).jpg','01 (12).jpg','01 (14).jpg',
+      '01 (15).jpg','01 (17).jpg','01 (21).jpg','001 (16).jpg'
+    ]),
+  },
+  glitz: {
+    title: 'From Glitz to Glory', tag: 'VICE', type: 'masonry',
+    items: imgs('vice/glitz', [
+      '0.jpg','1.jpg','2.jpg','3.jpg','4.jpg','5.jpg',
+      '7.jpg','8.jpg','9.jpg','10.jpg','11.jpg','12.jpg'
+    ]),
+  },
+  barbes: {
+    title: 'Histoires de Quartiers: Barbès', tag: 'VICE', type: 'masonry',
+    items: imgs('vice/barbes', [
+      '01 (1).jpg','01 (2).jpg','01 (3).jpg','01 (4).jpg','01 (5).jpg','01 (6).jpg','01 (7).jpg'
+    ]),
+  },
+  florence: {
+    title: 'Florence Road Concert', tag: 'VICE', type: 'masonry',
+    items: imgs('vice/florence', [
+      '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9.jpg','10.jpg'
+    ]),
+  },
+  arnhem: {
+    title: 'Arnhem Unfiltered', tag: 'VICE', type: 'masonry',
+    items: imgs('vice/arnhem', [
+      '01 (1).jpg','01 (2).jpg','01 (3).jpg','01 (4).jpg','01 (5).jpg','01 (6).jpg',
+      '01 (7).jpg','01 (8).jpg','01 (9).jpg','01 (10).jpg','01 (11).jpg','01 (12).jpg',
+      '01 (13).jpg','01 (14).jpg'
+    ]),
+  },
   // ── EXHIBITIONS ────────────────────────────────────────────
-  ribs:        { title: 'Ribs',                           tag: 'Fotomuseum Amsterdam', type: 'masonry', items: [{ h: 480 }, { h: 320 }, { h: 400 }, { h: 360 }, { h: 440 }, { h: 290 }] },
-  kigali:      { title: 'Kigali Street Fashion',          tag: 'Meervaart Theater',   type: 'masonry', items: [{ h: 420 }, { h: 380 }, { h: 300 }, { h: 460 }, { h: 310 }, { h: 390 }] },
-  stateofpower:{ title: 'The State of Power',             tag: 'Meervaart Theater',   type: 'masonry', items: [{ h: 350 }, { h: 440 }, { h: 310 }, { h: 400 }, { h: 280 }, { h: 420 }] },
+  ribs: {
+    title: 'Ribs', tag: 'Fotomuseum Amsterdam', type: 'masonry',
+    items: imgs('exhibitions/ribs', [
+      '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg'
+    ]),
+  },
+  kigali: {
+    title: 'Kigali Street Fashion', tag: 'Meervaart Theater', type: 'masonry',
+    items: imgs('exhibitions/kigali', [
+      '01 (1).JPG','01 (2).jpg','01 (3).jpg','01 (4).jpg'
+    ]),
+  },
+  stateofpower: {
+    title: 'The State of Power', tag: 'Meervaart Theater', type: 'masonry',
+    items: imgs('exhibitions/stateofpower', [
+      '01 (1).jpg','01 (2).jpg','01 (3).jpg','01 (4).jpg'
+    ]),
+  },
   // ── INDEPENDENT ────────────────────────────────────────────
-  kennemerland:{ title: 'Kennemerland 2025', tag: null, type: 'strip', items: [{ w: 480 }, { w: 320 }, { w: 560 }, { w: 400 }, { w: 480 }] },
-  iseo:        { title: 'Iseo 2025',         tag: null, type: 'strip', items: [{ w: 520 }, { w: 400 }, { w: 480 }, { w: 360 }, { w: 440 }] },
-  zandvoort:   { title: 'Zandvoort 2023',    tag: null, type: 'strip', items: [{ w: 460 }, { w: 380 }, { w: 520 }, { w: 420 }, { w: 360 }] },
+  kennemerland: {
+    title: 'Kennemerland 2025', tag: null, type: 'strip',
+    items: imgs('independent/kennemerland', [
+      '1 (1).jpg','1 (2).jpg','1 (3).jpg','1 (4).jpg','1 (5).jpg',
+      '1 (6).jpg','1 (8).jpg','1 (10).jpg','1 (11).jpg'
+    ]),
+  },
+  iseo: {
+    title: 'Iseo 2025', tag: null, type: 'strip',
+    items: imgs('independent/iseo', [
+      '0.jpg','01.jpg','02.jpg','03.jpg','04.jpg','05.jpg','06.jpg','07.jpg','08.jpg','09.jpg'
+    ]),
+  },
+  zandvoort: {
+    title: 'Zandvoort 2023', tag: null, type: 'strip',
+    items: imgs('independent/zandvoort', [
+      '01-1.jpg','01-2.jpg','01-3.jpg','01-4.jpg','01-5.jpg','01-6.jpg'
+    ]),
+  },
   // ── GALLERIES ──────────────────────────────────────────────
-  gallery_fashion:     { title: 'Fashion',           tag: null, type: 'masonry', items: [{ h: 480 }, { h: 320 }, { h: 400 }, { h: 360 }, { h: 440 }, { h: 300 }, { h: 380 }, { h: 460 }, { h: 290 }] },
-  gallery_documentary: { title: 'Documentary',       tag: null, type: 'masonry', items: [{ h: 420 }, { h: 350 }, { h: 460 }, { h: 310 }, { h: 390 }, { h: 440 }, { h: 280 }, { h: 400 }, { h: 320 }] },
-  gallery_street:      { title: 'Street Photography',tag: null, type: 'masonry', items: [{ h: 400 }, { h: 460 }, { h: 310 }, { h: 440 }, { h: 360 }, { h: 290 }, { h: 420 }, { h: 340 }, { h: 380 }] },
+  gallery_fashion: {
+    title: 'Fashion', tag: null, type: 'masonry',
+    items: imgs('galleries/fashion', [
+      '01 (1).jpg','01 (4).jpg','01 (5).jpg','01 (6).jpg','01 (7).jpg',
+      '01 (8).jpg','01 (9).jpg','01 (10).jpg','01 (11).jpg','01 (12).jpg'
+    ]),
+  },
+  gallery_documentary: {
+    title: 'Nightlife', tag: null, type: 'masonry',
+    items: imgs('galleries/documentary', [
+      '1-1.jpg','1-2.jpg','1-3.jpg','1-4.jpg','1-5.jpg','1-6.jpg','1-7.jpg','1-8.jpg','1-9.jpg',
+      '1-10.jpg','1-11.jpg','1-12.jpg','1-13.jpg',
+      '1-1-2.jpg','1-1-3.jpg','1-1-4.jpg',
+      '1-2-2.jpg','1-2-3.jpg','1-2-4.jpg',
+      '1-3-2.jpg','1-3-3.jpg','1-3-4.jpg',
+      '1-4-2.jpg','1-4-3.jpg','1-4-4.jpg',
+      '1-5-2.jpg','1-5-3.jpg',
+      '1-6-2.jpg','1-6-3.jpg',
+      '1-7-2.jpg'
+    ]),
+  },
+  gallery_street: {
+    title: 'Street Photography', tag: null, type: 'masonry',
+    items: imgs('galleries/street', [
+      '01 (1).jpg','01 (2).jpg','01 (3).jpg','01 (4).jpg','01 (5).jpg','01 (6).jpg','01 (7).jpg',
+      '01 (12).jpg','01 (13).jpg','01 (14).jpg','01 (15).jpg','01 (17).jpg','01 (18).jpg',
+      '01 (19).jpg','01 (20).JPG','01 (21).JPG','01 (23).JPG','01 (24).JPG',
+      '01 (25).JPG','01 (26).JPG','01 (27).jpg','01 (28).jpg'
+    ]),
+  },
 };
 
 // ─── RENDERERS ───────────────────────────────────────────────
@@ -78,15 +173,11 @@ function renderDetail(key) {
     grid.className = 'masonry';
     data.items.forEach(item => {
       const div = document.createElement('div');
-      if (item.src) {
-        div.className = 'masonry-item';
-        const img = document.createElement('img');
-        img.src = item.src; img.alt = '';
-        div.appendChild(img);
-      } else {
-        div.className = 'masonry-placeholder';
-        div.style.height = item.h + 'px';
-      }
+      div.className = 'masonry-item';
+      const img = document.createElement('img');
+      img.src = item.src; img.alt = '';
+      img.loading = 'lazy';
+      div.appendChild(img);
       grid.appendChild(div);
     });
     detailContent.appendChild(grid);
@@ -98,17 +189,11 @@ function renderDetail(key) {
     const stripDiv = document.createElement('div');
     stripDiv.className = 'strip';
     data.items.forEach(item => {
-      if (item.src) {
-        const img = document.createElement('img');
-        img.className = 'strip-img';
-        img.src = item.src; img.alt = '';
-        stripDiv.appendChild(img);
-      } else {
-        const ph = document.createElement('div');
-        ph.className = 'strip-placeholder';
-        ph.style.width = item.w + 'px';
-        stripDiv.appendChild(ph);
-      }
+      const img = document.createElement('img');
+      img.className = 'strip-img';
+      img.src = item.src; img.alt = '';
+      img.loading = 'lazy';
+      stripDiv.appendChild(img);
     });
     wrapper.appendChild(stripDiv);
     detailContent.appendChild(wrapper);
@@ -133,17 +218,11 @@ function renderIndependent() {
     const strip = document.createElement('div');
     strip.className = 'strip';
     data.items.forEach(item => {
-      if (item.src) {
-        const img = document.createElement('img');
-        img.className = 'strip-img';
-        img.src = item.src; img.alt = '';
-        strip.appendChild(img);
-      } else {
-        const ph = document.createElement('div');
-        ph.className = 'strip-placeholder';
-        ph.style.width = item.w + 'px';
-        strip.appendChild(ph);
-      }
+      const img = document.createElement('img');
+      img.className = 'strip-img';
+      img.src = item.src; img.alt = '';
+      img.loading = 'lazy';
+      strip.appendChild(img);
     });
     section.appendChild(strip);
     container.appendChild(section);
@@ -159,10 +238,7 @@ document.addEventListener('click', e => {
   const target = el.dataset.nav;
   const ctx    = el.dataset.ctx;
 
-  if (target === 'back') {
-    goBack();
-    return;
-  }
+  if (target === 'back') { goBack(); return; }
 
   if (target === 'independent') {
     navStack.push('independent');
