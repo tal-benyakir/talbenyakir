@@ -274,17 +274,7 @@ document.addEventListener('click', e => {
   navigateTo(target);
 });
 
-// ─── CONTACT FORM ────────────────────────────────────────────
-const form = document.getElementById('contact-form');
-if (form) {
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const btn = form.querySelector('.form-submit');
-    btn.textContent = 'Sent';
-    btn.disabled = true;
-    setTimeout(() => { btn.textContent = 'Send'; btn.disabled = false; form.reset(); }, 3000);
-  });
-}
+
 
 // ─── INIT ─────────────────────────────────────────────────────
 navStack = ['landing'];
