@@ -14,9 +14,9 @@ button { background: none; border: none; cursor: pointer; padding: 0; }
   --rule:    #111111;
   --rule-lt: #DEDEDE;
 
-  --serif:   'Playfair Display SC', Georgia, serif;
-  --serif-title: 'Playfair Display', Georgia, serif;
-  --sans:    'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --serif:   'Old Standard TT', Georgia, serif;
+  --serif-title: 'Old Standard TT', Georgia, serif;
+  --sans:    'Helvetica Neue', sans-serif;
 
   --margin:  clamp(1.5rem, 6vw, 6rem);
   --max:     1280px;
@@ -24,7 +24,7 @@ button { background: none; border: none; cursor: pointer; padding: 0; }
 
 /* ─── BASE ───────────────────────────────────────────────────── */
 body {
-  font-family: var(--sans);
+  font-family: 'Helvetica Neue', sans-serif;
   background: var(--white);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
@@ -93,7 +93,7 @@ nav {
 
 .menu-overlay .menu-meta {
   margin-top: 3rem;
-  font-family: var(--sans);
+  font-family: 'Helvetica Neue', sans-serif;
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -130,7 +130,7 @@ nav {
 }
 
 .landing-desc {
-  font-family: var(--sans);
+  font-family: 'Helvetica Neue', sans-serif;
   font-size: clamp(0.7rem, 1.4vw, 0.8rem);
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -194,7 +194,7 @@ nav {
 }
 
 .page-back {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -259,7 +259,7 @@ nav {
 }
 
 .article-card-meta {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
   font-size: 0.65rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -278,7 +278,7 @@ nav {
 }
 
 .article-card-excerpt {
-  font-family: var(--sans);
+  font-family: 'Helvetica Neue', sans-serif;
   font-size: 0.78rem;
   line-height: 1.6;
   color: #444;
@@ -318,7 +318,7 @@ nav {
 }
 
 .photo-cat-count {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
   font-size: 0.65rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -366,7 +366,7 @@ nav {
 }
 
 .project-card-tag {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
   font-size: 0.6rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -521,7 +521,7 @@ nav {
 
 .form-field input,
 .form-field textarea {
-  font-family: var(--sans);
+  font-family: 'Helvetica Neue', sans-serif;
   font-size: 0.9rem;
   color: var(--ink);
   background: transparent;
@@ -539,7 +539,7 @@ nav {
 
 .form-submit {
   align-self: flex-start;
-  font-family: var(--sans);
+  font-family: 'Helvetica Neue', sans-serif;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
