@@ -305,6 +305,24 @@ nav {
 
 .photo-cat-card:hover { background: var(--off); }
 
+.photo-cat-placeholder {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: var(--off);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.photo-cat-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.photo-cat-card:hover .photo-cat-placeholder img { transform: scale(1.03); }
+
 .photo-cat-title {
   font-family: var(--serif);
   font-size: clamp(1.1rem, 2vw, 1.5rem);
