@@ -1,5 +1,4 @@
 // ─── STATE ───────────────────────────────────────────────────
-// Stack of views: each entry is { view, context }
 let navStack = [];
 
 // ─── VIEW REGISTRY ───────────────────────────────────────────
@@ -14,27 +13,16 @@ const views = {
   'photo-detail': document.getElementById('view-photo-detail'),
 };
 
-function showView(id, pushState = true) {
+function showView(id) {
   Object.values(views).forEach(v => v && v.classList.remove('active'));
   if (views[id]) views[id].classList.add('active');
   window.scrollTo(0, 0);
   closeMenu();
 }
 
-function navigateTo(id, context) {
-  navStack.push(id);
-  showView(id);
-  if (context) renderDetail(id, context);
-}
-
 function goBack() {
   navStack.pop();
-  const prev = navStack[navStack.length - 1] || 'landing';
-  showView(prev);
-  // Re-render if needed
-  if (prev === 'photo-detail') {
-    // handled by renderDetail already in stack — just show
-  }
+  showView(navStack[navStack.length - 1] || 'landing');
 }
 
 // ─── HAMBURGER ───────────────────────────────────────────────
@@ -52,108 +40,33 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu();
 
 // ─── DATA ─────────────────────────────────────────────────────
 const photoData = {
-  // ── VICE PROJECTS ──────────────────────────────────────────
-  queer: {
-    title: 'Queer in the Dutch Countryside',
-    tag: 'VICE',
-    type: 'masonry',
-    items: [{ h: 420 }, { h: 300 }, { h: 380 }, { h: 310 }, { h: 460 }, { h: 280 }],
-  },
-  glitz: {
-    title: 'From Glitz to Glory',
-    tag: 'VICE',
-    type: 'masonry',
-    items: [{ h: 380 }, { h: 440 }, { h: 300 }, { h: 410 }, { h: 350 }, { h: 290 }],
-  },
-  barbes: {
-    title: 'Histoires de Quartiers: Barbès',
-    tag: 'VICE',
-    type: 'masonry',
-    items: [{ h: 400 }, { h: 320 }, { h: 460 }, { h: 280 }, { h: 390 }, { h: 340 }],
-  },
-  florence: {
-    title: 'Florence Road Concert',
-    tag: 'VICE',
-    type: 'masonry',
-    items: [{ h: 360 }, { h: 450 }, { h: 310 }, { h: 420 }, { h: 280 }, { h: 400 }],
-  },
-  arnhem: {
-    title: 'Arnhem Unfiltered',
-    tag: 'VICE',
-    type: 'masonry',
-    items: [{ h: 440 }, { h: 300 }, { h: 380 }, { h: 460 }, { h: 320 }, { h: 350 }],
-  },
+  // ── VICE ───────────────────────────────────────────────────
+  queer:       { title: 'Queer in the Dutch Countryside', tag: 'VICE',               type: 'masonry', items: [{ h: 420 }, { h: 300 }, { h: 380 }, { h: 310 }, { h: 460 }, { h: 280 }] },
+  glitz:       { title: 'From Glitz to Glory',            tag: 'VICE',               type: 'masonry', items: [{ h: 380 }, { h: 440 }, { h: 300 }, { h: 410 }, { h: 350 }, { h: 290 }] },
+  barbes:      { title: 'Histoires de Quartiers: Barbès', tag: 'VICE',               type: 'masonry', items: [{ h: 400 }, { h: 320 }, { h: 460 }, { h: 280 }, { h: 390 }, { h: 340 }] },
+  florence:    { title: 'Florence Road Concert',          tag: 'VICE',               type: 'masonry', items: [{ h: 360 }, { h: 450 }, { h: 310 }, { h: 420 }, { h: 280 }, { h: 400 }] },
+  arnhem:      { title: 'Arnhem Unfiltered',              tag: 'VICE',               type: 'masonry', items: [{ h: 440 }, { h: 300 }, { h: 380 }, { h: 460 }, { h: 320 }, { h: 350 }] },
   // ── EXHIBITIONS ────────────────────────────────────────────
-  ribs: {
-    title: 'Ribs',
-    tag: 'Fotomuseum Amsterdam',
-    type: 'masonry',
-    items: [{ h: 480 }, { h: 320 }, { h: 400 }, { h: 360 }, { h: 440 }, { h: 290 }],
-  },
-  kigali: {
-    title: 'Kigali Street Fashion',
-    tag: 'Meervaart Theater',
-    type: 'masonry',
-    items: [{ h: 420 }, { h: 380 }, { h: 300 }, { h: 460 }, { h: 310 }, { h: 390 }],
-  },
-  stateofpower: {
-    title: 'The State of Power',
-    tag: 'Meervaart Theater',
-    type: 'masonry',
-    items: [{ h: 350 }, { h: 440 }, { h: 310 }, { h: 400 }, { h: 280 }, { h: 420 }],
-  },
+  ribs:        { title: 'Ribs',                           tag: 'Fotomuseum Amsterdam', type: 'masonry', items: [{ h: 480 }, { h: 320 }, { h: 400 }, { h: 360 }, { h: 440 }, { h: 290 }] },
+  kigali:      { title: 'Kigali Street Fashion',          tag: 'Meervaart Theater',   type: 'masonry', items: [{ h: 420 }, { h: 380 }, { h: 300 }, { h: 460 }, { h: 310 }, { h: 390 }] },
+  stateofpower:{ title: 'The State of Power',             tag: 'Meervaart Theater',   type: 'masonry', items: [{ h: 350 }, { h: 440 }, { h: 310 }, { h: 400 }, { h: 280 }, { h: 420 }] },
   // ── INDEPENDENT ────────────────────────────────────────────
-  kennemerland: {
-    title: 'Kennemerland 2025',
-    tag: null,
-    type: 'strip',
-    items: [{ w: 480 }, { w: 320 }, { w: 560 }, { w: 400 }, { w: 480 }],
-  },
-  iseo: {
-    title: 'Iseo 2025',
-    tag: null,
-    type: 'strip',
-    items: [{ w: 520 }, { w: 400 }, { w: 480 }, { w: 360 }, { w: 440 }],
-  },
-  zandvoort: {
-    title: 'Zandvoort 2023',
-    tag: null,
-    type: 'strip',
-    items: [{ w: 460 }, { w: 380 }, { w: 520 }, { w: 420 }, { w: 360 }],
-  },
-  greece: {
-    title: 'Greece 2024',
-    tag: null,
-    type: 'strip',
-    items: [{ w: 500 }, { w: 360 }, { w: 480 }, { w: 440 }, { w: 400 }],
-  },
+  kennemerland:{ title: 'Kennemerland 2025', tag: null, type: 'strip', items: [{ w: 480 }, { w: 320 }, { w: 560 }, { w: 400 }, { w: 480 }] },
+  iseo:        { title: 'Iseo 2025',         tag: null, type: 'strip', items: [{ w: 520 }, { w: 400 }, { w: 480 }, { w: 360 }, { w: 440 }] },
+  zandvoort:   { title: 'Zandvoort 2023',    tag: null, type: 'strip', items: [{ w: 460 }, { w: 380 }, { w: 520 }, { w: 420 }, { w: 360 }] },
+  greece:      { title: 'Greece 2024',       tag: null, type: 'strip', items: [{ w: 500 }, { w: 360 }, { w: 480 }, { w: 440 }, { w: 400 }] },
   // ── GALLERIES ──────────────────────────────────────────────
-  gallery_fashion: {
-    title: 'Fashion',
-    tag: null,
-    type: 'masonry',
-    items: [{ h: 480 }, { h: 320 }, { h: 400 }, { h: 360 }, { h: 440 }, { h: 300 }, { h: 380 }, { h: 460 }, { h: 290 }],
-  },
-  gallery_documentary: {
-    title: 'Documentary',
-    tag: null,
-    type: 'masonry',
-    items: [{ h: 420 }, { h: 350 }, { h: 460 }, { h: 310 }, { h: 390 }, { h: 440 }, { h: 280 }, { h: 400 }, { h: 320 }],
-  },
-  gallery_street: {
-    title: 'Street Photography',
-    tag: null,
-    type: 'masonry',
-    items: [{ h: 400 }, { h: 460 }, { h: 310 }, { h: 440 }, { h: 360 }, { h: 290 }, { h: 420 }, { h: 340 }, { h: 380 }],
-  },
+  gallery_fashion:     { title: 'Fashion',           tag: null, type: 'masonry', items: [{ h: 480 }, { h: 320 }, { h: 400 }, { h: 360 }, { h: 440 }, { h: 300 }, { h: 380 }, { h: 460 }, { h: 290 }] },
+  gallery_documentary: { title: 'Documentary',       tag: null, type: 'masonry', items: [{ h: 420 }, { h: 350 }, { h: 460 }, { h: 310 }, { h: 390 }, { h: 440 }, { h: 280 }, { h: 400 }, { h: 320 }] },
+  gallery_street:      { title: 'Street Photography',tag: null, type: 'masonry', items: [{ h: 400 }, { h: 460 }, { h: 310 }, { h: 440 }, { h: 360 }, { h: 290 }, { h: 420 }, { h: 340 }, { h: 380 }] },
 };
 
-// ─── DETAIL RENDERER ─────────────────────────────────────────
+// ─── RENDERERS ───────────────────────────────────────────────
 const detailTitle   = document.getElementById('detail-title');
 const detailTag     = document.getElementById('detail-tag');
 const detailContent = document.getElementById('detail-content');
 
-function renderDetail(view, key) {
+function renderDetail(key) {
   const data = photoData[key];
   if (!data) return;
 
@@ -181,7 +94,6 @@ function renderDetail(view, key) {
   }
 
   if (data.type === 'strip') {
-    // Independent: each item is a named strip
     const wrapper = document.createElement('div');
     wrapper.style.paddingBottom = '4rem';
     const stripDiv = document.createElement('div');
@@ -204,21 +116,18 @@ function renderDetail(view, key) {
   }
 }
 
-// ─── INDEPENDENT RENDERER ────────────────────────────────────
-// Independent page shows all strips at once, not via detail view
 function renderIndependent() {
   const container = document.getElementById('independent-content');
   if (!container) return;
   container.innerHTML = '';
 
-  const strips = ['kennemerland', 'iseo', 'zandvoort', 'greece'];
-  strips.forEach(key => {
+  ['kennemerland', 'iseo', 'zandvoort', 'greece'].forEach(key => {
     const data = photoData[key];
     const section = document.createElement('div');
     section.className = 'strip-section';
 
     const title = document.createElement('div');
-    title.className = 'strip-title'; title.style.fontVariant = 'normal'; title.style.textTransform = 'none';
+    title.className = 'strip-title';
     title.textContent = data.title;
     section.appendChild(title);
 
@@ -266,15 +175,13 @@ document.addEventListener('click', e => {
   if (target === 'photo-detail' && ctx) {
     navStack.push('photo-detail');
     showView('photo-detail');
-    renderDetail('photo-detail', ctx);
+    renderDetail(ctx);
     return;
   }
 
   navStack = [target];
-  navigateTo(target);
+  showView(target);
 });
-
-
 
 // ─── INIT ─────────────────────────────────────────────────────
 navStack = ['landing'];
