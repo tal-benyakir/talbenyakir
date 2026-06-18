@@ -54,7 +54,6 @@ const photoData = {
   kennemerland:{ title: 'Kennemerland 2025', tag: null, type: 'strip', items: [{ w: 480 }, { w: 320 }, { w: 560 }, { w: 400 }, { w: 480 }] },
   iseo:        { title: 'Iseo 2025',         tag: null, type: 'strip', items: [{ w: 520 }, { w: 400 }, { w: 480 }, { w: 360 }, { w: 440 }] },
   zandvoort:   { title: 'Zandvoort 2023',    tag: null, type: 'strip', items: [{ w: 460 }, { w: 380 }, { w: 520 }, { w: 420 }, { w: 360 }] },
-  greece:      { title: 'Greece 2024',       tag: null, type: 'strip', items: [{ w: 500 }, { w: 360 }, { w: 480 }, { w: 440 }, { w: 400 }] },
   // ── GALLERIES ──────────────────────────────────────────────
   gallery_fashion:     { title: 'Fashion',           tag: null, type: 'masonry', items: [{ h: 480 }, { h: 320 }, { h: 400 }, { h: 360 }, { h: 440 }, { h: 300 }, { h: 380 }, { h: 460 }, { h: 290 }] },
   gallery_documentary: { title: 'Documentary',       tag: null, type: 'masonry', items: [{ h: 420 }, { h: 350 }, { h: 460 }, { h: 310 }, { h: 390 }, { h: 440 }, { h: 280 }, { h: 400 }, { h: 320 }] },
@@ -121,7 +120,7 @@ function renderIndependent() {
   if (!container) return;
   container.innerHTML = '';
 
-  ['kennemerland', 'iseo', 'zandvoort', 'greece'].forEach(key => {
+  ['kennemerland', 'iseo', 'zandvoort'].forEach(key => {
     const data = photoData[key];
     const section = document.createElement('div');
     section.className = 'strip-section';
