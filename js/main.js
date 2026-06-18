@@ -218,7 +218,7 @@ function renderIndependent() {
     section.className = 'strip-section';
 
     const title = document.createElement('div');
-    title.className = 'strip-title';
+    title.className = 'strip-title'; title.style.fontVariant = 'normal'; title.style.textTransform = 'none';
     title.textContent = data.title;
     section.appendChild(title);
 
