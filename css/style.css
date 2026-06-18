@@ -483,7 +483,29 @@ nav {
 /* ─── INDEPENDENT STRIPS ─────────────────────────────────────── */
 .strip-section {
   margin-bottom: 4rem;
+  position: relative;
 }
+
+.strip-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--mid);
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0.5rem;
+  z-index: 2;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  margin-top: 1rem;
+}
+
+.strip-arrow:hover { opacity: 1; }
+.strip-arrow-left  { left: -2rem; }
+.strip-arrow-right { right: -2rem; }
 
 .strip-title {
   font-family: var(--serif);
