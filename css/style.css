@@ -119,6 +119,12 @@ nav {
   z-index: 1;
 }
 
+@media (max-width: 600px) {
+  .landing-top {
+    bottom: clamp(6rem, 15vh, 10rem);
+  }
+}
+
 .landing-name {
   font-family: var(--display);
   font-size: clamp(2.5rem, 6vw, 5.5rem);
