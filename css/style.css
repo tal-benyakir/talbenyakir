@@ -15,6 +15,7 @@ button { background: none; border: none; cursor: pointer; padding: 0; }
   --rule-lt: #DEDEDE;
 
   --serif:   'Playfair Display SC', Georgia, serif;
+  --serif-title: 'Playfair Display', Georgia, serif;
   --sans:    'Helvetica Neue', Helvetica, Arial, sans-serif;
 
   --margin:  clamp(1.5rem, 6vw, 6rem);
@@ -106,14 +107,15 @@ nav {
 /* ─── LANDING ────────────────────────────────────────────────── */
 .landing {
   min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr;
+  display: flex;
+  flex-direction: column;
   padding: var(--margin);
   padding-top: 5rem;
+  padding-bottom: clamp(3rem, 8vh, 6rem);
 }
 
 .landing-top {
-  /* name + desc sit top-left */
+  margin-bottom: auto;
 }
 
 .landing-name {
@@ -180,11 +182,12 @@ nav {
 }
 
 .page-header h1 {
-  font-family: var(--serif);
+  font-family: var(--serif-title);
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
   font-style: normal;
   letter-spacing: -0.01em;
+  text-transform: none;
 }
 
 .page-back {
@@ -262,7 +265,7 @@ nav {
 }
 
 .article-card-title {
-  font-family: var(--serif);
+  font-family: var(--serif-title);
   font-size: clamp(0.95rem, 1.5vw, 1.1rem);
   font-weight: 700;
   line-height: 1.3;
@@ -303,11 +306,12 @@ nav {
 .photo-cat-card:hover { background: var(--off); }
 
 .photo-cat-title {
-  font-family: var(--serif);
+  font-family: var(--serif-title);
   font-size: clamp(1.1rem, 2vw, 1.5rem);
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 0.4rem;
+  text-transform: none;
 }
 
 .photo-cat-count {
@@ -368,7 +372,7 @@ nav {
 }
 
 .project-card-title {
-  font-family: var(--serif);
+  font-family: var(--serif-title);
   font-size: 0.95rem;
   font-style: italic;
   line-height: 1.3;
@@ -394,10 +398,11 @@ nav {
 .gallery-card:hover { background: var(--off); }
 
 .gallery-card-title {
-  font-family: var(--serif);
+  font-family: var(--serif-title);
   font-size: clamp(1.1rem, 2vw, 1.5rem);
   font-weight: 700;
   line-height: 1.2;
+  text-transform: none;
 }
 
 /* ─── MASONRY VIEW ───────────────────────────────────────────── */
@@ -430,7 +435,7 @@ nav {
 }
 
 .strip-title {
-  font-family: var(--serif);
+  font-family: var(--serif-title);
   font-size: 0.85rem;
   font-style: italic;
   letter-spacing: 0.02em;
@@ -438,6 +443,7 @@ nav {
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--rule-lt);
+  text-transform: none;
 }
 
 .strip {
