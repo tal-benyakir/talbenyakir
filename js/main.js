@@ -161,7 +161,11 @@ const coverKeys = ['queer','glitz','barbes','florence','arnhem','ribs','kigali',
 coverKeys.forEach(key => {
   const el = document.getElementById('cover-' + key);
   if (!el) return;
-  const src = photoData[key]?.items?.[0]?.src;
+  let src;
+  if (key === 'gallery_fashion')     src = `${BASE}/galleries/T1.jpg`;
+  else if (key === 'gallery_documentary') src = `${BASE}/galleries/T2.jpg`;
+  else if (key === 'gallery_street') src = `${BASE}/galleries/T3.jpg`;
+  else src = photoData[key]?.items?.[0]?.src;
   if (!src) return;
   const img = document.createElement('img');
   img.src = src;
