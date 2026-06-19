@@ -463,7 +463,7 @@ nav {
 
 .photo-grid-full {
   width: 100%;
-  margin-bottom: 3rem;
+  margin-bottom: 5rem;
 }
 
 .photo-grid-full img {
@@ -473,14 +473,15 @@ nav {
 
 .photo-grid-pair {
   display: flex;
-  gap: 2rem;
+  gap: 4rem;
   justify-content: center;
-  align-items: flex-start;
-  margin-bottom: 3rem;
+  align-items: center;
+  margin-bottom: 5rem;
+  padding: 0 4rem;
 }
 
 .photo-grid-pair img {
-  width: calc(50% - 1rem);
+  width: calc(45% - 2rem);
   height: auto;
   display: block;
 }
