@@ -456,28 +456,33 @@ nav {
   line-height: 1.2;
 }
 
-/* ─── MASONRY VIEW ───────────────────────────────────────────── */
-.masonry {
-  columns: 3;
-  column-gap: 1.5rem;
+/* ─── PHOTO GRID VIEW ───────────────────────────────────────── */
+.photo-grid {
   margin-bottom: 6rem;
 }
 
-.masonry-item {
-  break-inside: avoid;
-  margin-bottom: 1.5rem;
+.photo-grid-full {
+  width: 100%;
+  margin-bottom: 3rem;
 }
 
-.masonry-item img {
+.photo-grid-full img {
   width: 100%;
   display: block;
 }
 
-.masonry-placeholder {
-  break-inside: avoid;
-  margin-bottom: 2px;
-  background: var(--off);
-  width: 100%;
+.photo-grid-pair {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+}
+
+.photo-grid-pair img {
+  width: calc(50% - 1rem);
+  height: auto;
+  display: block;
 }
 
 /* ─── INDEPENDENT STRIPS ─────────────────────────────────────── */
@@ -590,7 +595,7 @@ nav {
   .photo-cat-grid,
   .project-grid,
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-  .masonry { columns: 2; }
+
 }
 
 @media (max-width: 600px) {
@@ -598,7 +603,7 @@ nav {
   .photo-cat-grid,
   .project-grid,
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-  .masonry { columns: 2; }
+
   .bio-layout { grid-template-columns: 1fr; gap: 3rem; }
 }
 
