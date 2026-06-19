@@ -351,8 +351,6 @@ nav {
   grid-template-columns: repeat(3, 1fr);
   border-left: 1px solid var(--rule);
   margin-bottom: 3rem;
-  gap: 1.5rem;
-  border: none;
 }
 
 .project-card {
@@ -394,7 +392,7 @@ nav {
 .project-card:hover .project-card-placeholder img { transform: scale(1.03); }
 
 .project-card-info {
-  padding: 0.85rem 1rem 1.1rem;
+  padding: 1.25rem 1.25rem 1.5rem;
   border-top: 1px solid var(--rule-lt);
 }
 
