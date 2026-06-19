@@ -13,11 +13,14 @@ const views = {
   'photo-detail': document.getElementById('view-photo-detail'),
 };
 
+const navEl = document.querySelector('nav');
+
 function showView(id) {
   Object.values(views).forEach(v => v && v.classList.remove('active'));
   if (views[id]) views[id].classList.add('active');
   window.scrollTo(0, 0);
   closeMenu();
+  navEl.style.display = id === 'landing' ? 'none' : '';
 }
 
 function goBack() {
