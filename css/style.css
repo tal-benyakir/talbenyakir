@@ -464,10 +464,14 @@ nav {
 .photo-grid-full {
   width: 100%;
   margin-bottom: 5rem;
+  display: flex;
+  justify-content: center;
 }
 
 .photo-grid-full img {
-  width: 100%;
+  max-height: 90vh;
+  width: auto;
+  max-width: 100%;
   display: block;
 }
 
