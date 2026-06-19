@@ -89,9 +89,20 @@ const photoData = {
   // ── EXHIBITIONS ────────────────────────────────────────────
   ribs: {
     title: 'Ribs', tag: 'Fotomuseum Amsterdam', type: 'masonry',
-    items: imgs('exhibitions/ribs', [
-      '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg'
-    ]),
+    description: 'Photoseries for FOAM about masculinity and emotion. The title of the series and images are excerpts from \u2018Ribs\u2019, a poem by Sam Sax.',
+    descriptionLink: { text: 'View the original exhibition', url: 'https://www.foam.org/online-exhibitions/meervaart-studio-2023' },
+    poem: [
+      ['at the rib joint\nwe became men.\n\nhis whole body\nsmoked for ten hours\n\ncame apart\nin my hands.\n\nsucked the meat\noff him. sucked\nthe bone. marrow\nbecomes you,\nyou know?\n\nyou know, when you eat\nsomething, it becomes you?\n\nyounger me grew broccoli crowns\nfrom our skull,\ngrew hand antlers, ground ankle beef.\n\nat the table\ngod unhinged his ribs\nat the joint. opened him\nlike an oven laughing\nwith smoke, steam\nflapping its black wings\nup from his organs.',
+       'when i ate his ribs\ni became a man\n\nor maybe just ribs\nbraided together\nat the table\n\nor maybe a creation myth,\nwhen i ate him.\n\nin the beginning there was a table\ni sat & ate at until i was something.\n\nmy reflection swallowed in the plate,\nmy god, the weight of the blade.\n\nthe blade, singing.\n\nyou know when you become\nsomething it eats you? the teeth\nin my hand. the weight of the handle.\nthe meat separating from bone.']
+    ],
+    items: [
+      { src: imgs('exhibitions/ribs', ['1.jpg'])[0].src, caption: 'FINN // at the table god unhinged his ribs' },
+      { src: imgs('exhibitions/ribs', ['2.jpg'])[0].src, caption: 'BENNI // or maybe just ribs braided together at the table' },
+      { src: imgs('exhibitions/ribs', ['3.jpg'])[0].src, caption: 'JOHN // you know when you become something it eats you?' },
+      { src: imgs('exhibitions/ribs', ['4.jpg'])[0].src, caption: 'FINN // came apart in my hands' },
+      { src: imgs('exhibitions/ribs', ['5.jpg'])[0].src, caption: 'RORY // there was a table i sat & ate at until i was something' },
+      { src: imgs('exhibitions/ribs', ['6.jpg'])[0].src, caption: 'BENNI // when i ate his ribs i became a man' },
+    ],
   },
   kigali: {
     title: 'Kigali Street Fashion', tag: 'Meervaart Theater', type: 'masonry',
@@ -205,29 +216,76 @@ function renderDetail(key) {
   detailTag.textContent   = data.tag || '';
   detailContent.innerHTML = '';
 
+  if (data.description) {
+    const descWrap = document.createElement('div');
+    descWrap.style.cssText = 'margin-bottom:0;margin-top:-1.5rem;';
+
+    const desc = document.createElement('p');
+    desc.style.cssText = 'font-family:var(--body);font-style:italic;font-size:0.85rem;line-height:1.6;color:var(--ink);margin-bottom:0.4rem;';
+    desc.textContent = data.description;
+    descWrap.appendChild(desc);
+
+    if (data.descriptionLink) {
+      const a = document.createElement('a');
+      a.href = data.descriptionLink.url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = data.descriptionLink.text;
+      a.style.cssText = 'font-family:var(--body);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--mid);text-decoration:none;';
+      descWrap.appendChild(a);
+    }
+
+    detailContent.appendChild(descWrap);
+  }
+
   if (data.type === 'masonry') {
     const grid = document.createElement('div');
     grid.className = 'photo-grid';
 
     const srcs = data.items.map(i => i.src);
 
-    for (let i = 0; i < srcs.length; i += 2) {
+    for (let i = 0; i < data.items.length; i += 2) {
       const pair = document.createElement('div');
       pair.className = 'photo-grid-pair';
 
-      [srcs[i], srcs[i + 1]].forEach((src, j) => {
-        if (!src) return;
+      [data.items[i], data.items[i + 1]].forEach((item, j) => {
+        if (!item) return;
+        const wrap = document.createElement('div');
+        wrap.style.cssText = 'display:flex;flex-direction:column;width:calc(45% - 1rem);';
+
         const img = document.createElement('img');
-        img.src = src; img.alt = ''; img.loading = 'lazy';
-        img.style.cursor = 'pointer';
+        img.src = item.src; img.alt = ''; img.loading = 'lazy';
+        img.style.cssText = 'cursor:pointer;width:100%;height:auto;display:block;';
         img.addEventListener('click', () => openLightbox(srcs, i + j));
-        pair.appendChild(img);
+        wrap.appendChild(img);
+
+        if (item.caption) {
+          const cap = document.createElement('p');
+          cap.style.cssText = 'font-family:var(--body);font-size:0.72rem;line-height:1.5;color:var(--ink);margin-top:0.5rem;';
+          cap.textContent = item.caption;
+          wrap.appendChild(cap);
+        }
+
+        pair.appendChild(wrap);
       });
 
       grid.appendChild(pair);
     }
 
     detailContent.appendChild(grid);
+
+    // Poem at the bottom
+    if (data.poem) {
+      const poemWrap = document.createElement('div');
+      poemWrap.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:4rem;margin-bottom:6rem;padding-top:2rem;border-top:1px solid var(--rule-lt);';
+      data.poem[0].forEach(col => {
+        const colEl = document.createElement('p');
+        colEl.style.cssText = 'font-family:var(--body);font-size:0.8rem;line-height:1.9;white-space:pre-line;color:var(--ink);';
+        colEl.textContent = col;
+        poemWrap.appendChild(colEl);
+      });
+      detailContent.appendChild(poemWrap);
+    }
   }
 
   if (data.type === 'strip') {
