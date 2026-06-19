@@ -354,10 +354,6 @@ nav {
   margin-top: 2rem;
 }
 
-#view-exhibitions .project-grid {
-  grid-template-columns: repeat(2, 1fr);
-}
-
 .project-card {
   border-right: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
