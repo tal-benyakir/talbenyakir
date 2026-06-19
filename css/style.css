@@ -469,7 +469,7 @@ nav {
 }
 
 .photo-grid-full img {
-  max-height: 90vh;
+  max-height: calc(100vh - 220px);
   width: auto;
   max-width: 100%;
   display: block;
