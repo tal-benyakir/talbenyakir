@@ -213,16 +213,31 @@ function renderDetail(key) {
 
   if (data.type === 'masonry') {
     const grid = document.createElement('div');
-    grid.className = 'masonry';
-    data.items.forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'masonry-item';
-      const img = document.createElement('img');
-      img.src = item.src; img.alt = '';
-      img.loading = 'lazy';
-      div.appendChild(img);
-      grid.appendChild(div);
+    grid.className = 'photo-grid';
+
+    data.items.forEach((item, i) => {
+      if (i === 0) {
+        const full = document.createElement('div');
+        full.className = 'photo-grid-full';
+        const img = document.createElement('img');
+        img.src = item.src; img.alt = ''; img.loading = 'lazy';
+        full.appendChild(img);
+        grid.appendChild(full);
+      } else if ((i % 2) === 1) {
+        const pair = document.createElement('div');
+        pair.className = 'photo-grid-pair';
+        const img1 = document.createElement('img');
+        img1.src = item.src; img1.alt = ''; img1.loading = 'lazy';
+        pair.appendChild(img1);
+        if (data.items[i + 1]) {
+          const img2 = document.createElement('img');
+          img2.src = data.items[i + 1].src; img2.alt = ''; img2.loading = 'lazy';
+          pair.appendChild(img2);
+        }
+        grid.appendChild(pair);
+      }
     });
+
     detailContent.appendChild(grid);
   }
 
