@@ -99,12 +99,6 @@ const photoData = {
       '01 (1).JPG','01 (2).jpg','01 (3).jpg','01 (4).jpg'
     ]),
   },
-  stateofpower: {
-    title: 'The State of Power', tag: 'Meervaart Theater', type: 'masonry',
-    items: imgs('exhibitions/stateofpower', [
-      '01 (1).jpg','01 (2).jpg','01 (3).jpg','01 (4).jpg'
-    ]),
-  },
   // ── INDEPENDENT ────────────────────────────────────────────
   kennemerland: {
     title: 'Kennemerland 2025', tag: null, type: 'strip',
@@ -163,7 +157,7 @@ Object.entries(catCovers).forEach(([key, file]) => {
   img.alt = ''; img.loading = 'lazy';
   el.appendChild(img);
 });
-const coverKeys = ['queer','glitz','barbes','florence','arnhem','ribs','kigali','stateofpower','gallery_fashion','gallery_documentary','gallery_street'];
+const coverKeys = ['queer','glitz','barbes','florence','arnhem','ribs','kigali','gallery_fashion','gallery_documentary','gallery_street'];
 
 coverKeys.forEach(key => {
   const el = document.getElementById('cover-' + key);
@@ -215,28 +209,23 @@ function renderDetail(key) {
     const grid = document.createElement('div');
     grid.className = 'photo-grid';
 
-    data.items.forEach((item, i) => {
-      if (i === 0) {
-        const full = document.createElement('div');
-        full.className = 'photo-grid-full';
+    const srcs = data.items.map(i => i.src);
+
+    for (let i = 0; i < srcs.length; i += 2) {
+      const pair = document.createElement('div');
+      pair.className = 'photo-grid-pair';
+
+      [srcs[i], srcs[i + 1]].forEach((src, j) => {
+        if (!src) return;
         const img = document.createElement('img');
-        img.src = item.src; img.alt = ''; img.loading = 'lazy';
-        full.appendChild(img);
-        grid.appendChild(full);
-      } else if ((i % 2) === 1) {
-        const pair = document.createElement('div');
-        pair.className = 'photo-grid-pair';
-        const img1 = document.createElement('img');
-        img1.src = item.src; img1.alt = ''; img1.loading = 'lazy';
-        pair.appendChild(img1);
-        if (data.items[i + 1]) {
-          const img2 = document.createElement('img');
-          img2.src = data.items[i + 1].src; img2.alt = ''; img2.loading = 'lazy';
-          pair.appendChild(img2);
-        }
-        grid.appendChild(pair);
-      }
-    });
+        img.src = src; img.alt = ''; img.loading = 'lazy';
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', () => openLightbox(srcs, i + j));
+        pair.appendChild(img);
+      });
+
+      grid.appendChild(pair);
+    }
 
     detailContent.appendChild(grid);
   }
@@ -334,3 +323,42 @@ document.addEventListener('click', e => {
 // ─── INIT ─────────────────────────────────────────────────────
 navStack = ['landing'];
 showView('landing');
+
+// ─── LIGHTBOX ─────────────────────────────────────────────────
+const lightbox     = document.getElementById('lightbox');
+const lightboxImg  = document.getElementById('lightbox-img');
+const lightboxClose = document.getElementById('lightbox-close');
+const lightboxPrev = document.getElementById('lightbox-prev');
+const lightboxNext = document.getElementById('lightbox-next');
+
+let lightboxSrcs = [];
+let lightboxIndex = 0;
+
+function openLightbox(srcs, index) {
+  lightboxSrcs = srcs;
+  lightboxIndex = index;
+  lightboxImg.src = srcs[index];
+  lightbox.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function lightboxStep(dir) {
+  lightboxIndex = (lightboxIndex + dir + lightboxSrcs.length) % lightboxSrcs.length;
+  lightboxImg.src = lightboxSrcs[lightboxIndex];
+}
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightboxPrev.addEventListener('click', () => lightboxStep(-1));
+lightboxNext.addEventListener('click', () => lightboxStep(1));
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => {
+  if (lightbox.classList.contains('hidden')) return;
+  if (e.key === 'ArrowLeft')  lightboxStep(-1);
+  if (e.key === 'ArrowRight') lightboxStep(1);
+  if (e.key === 'Escape')     closeLightbox();
+});
