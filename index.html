@@ -9,6 +9,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Playfair+Display+SC:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Restores the real path after the GitHub Pages 404.html redirect trick
+    // (see https://github.com/rafgraph/spa-github-pages) so deep links survive a refresh.
+    (function (l) {
+      if (l.search[1] === '/') {
+        var decoded = l.search.slice(1).split('&').map(function (s) {
+          return s.replace(/~and~/g, '&');
+        }).join('?');
+        window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+      }
+    }(window.location));
+  </script>
 </head>
 <body>
 
@@ -22,10 +34,10 @@
 <!-- ─── MENU OVERLAY ─────────────────────────────────────── -->
 <div class="menu-overlay" id="menu-overlay">
   <div>
-    <a href="#" data-nav="landing">Home</a>
-    <a href="#" data-nav="articles">Articles</a>
-    <a href="#" data-nav="photography">Photography</a>
-    <a href="#" data-nav="bio">Bio &amp; Contact</a>
+    <a href="/" data-nav="landing">Home</a>
+    <a href="/articles" data-nav="articles">Articles</a>
+    <a href="/photography" data-nav="photography">Photography</a>
+    <a href="/bio" data-nav="bio">Bio &amp; Contact</a>
   </div>
   <div class="menu-meta">Tal Ben Yakir &mdash; Paris</div>
 </div>
@@ -40,9 +52,9 @@
       <p class="landing-desc">Journalist &amp; Photographer &mdash; Paris</p>
     </div>
     <nav class="landing-nav">
-      <a href="#" data-nav="articles">Articles</a>
-      <a href="#" data-nav="photography">Photography</a>
-      <a href="#" data-nav="bio">Bio &amp; Contact</a>
+      <a href="/articles" data-nav="articles">Articles</a>
+      <a href="/photography" data-nav="photography">Photography</a>
+      <a href="/bio" data-nav="bio">Bio &amp; Contact</a>
     </nav>
   </div>
 </div>
@@ -58,6 +70,39 @@
     </div>
 
     <div class="articles-grid">
+
+      <a class="article-card" href="https://www.vice.com/nl/article/een-ticket-uit-de-manosphere-alsjeblieft/" target="_blank" rel="noopener">
+        <div class="article-card-img-wrap">
+          <img class="article-card-img" src="https://www.vice.com/wp-content/uploads/sites/2/2026/07/Een_ticket_uit_de_manosphere__alsjeblieft-1.jpg?w=952" alt="" loading="lazy">
+        </div>
+        <div class="article-card-body">
+          <div class="article-card-meta">Vice &mdash; Jul 2026</div>
+          <div class="article-card-title">Een ticket uit de manosphere, alsjeblieft</div>
+          <div class="article-card-excerpt"></div>
+        </div>
+      </a>
+
+      <a class="article-card" href="https://viceint.substack.com/p/masculinity-outside-the-manosphere" target="_blank" rel="noopener">
+        <div class="article-card-img-wrap">
+          <img class="article-card-img" src="https://substackcdn.com/image/fetch/w_1200,h_675,c_fill,f_jpg,q_auto:good/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F23699549-b690-475a-9548-bbb125ea6425_1700x1160.jpeg" alt="" loading="lazy">
+        </div>
+        <div class="article-card-body">
+          <div class="article-card-meta">Vice &mdash; Jul 2026</div>
+          <div class="article-card-title">One ticket out of the Manosphere, please</div>
+          <div class="article-card-excerpt"></div>
+        </div>
+      </a>
+
+      <a class="article-card" href="https://viceint.substack.com/p/fete-de-la-musique-gwen-sampe" target="_blank" rel="noopener">
+        <div class="article-card-img-wrap">
+          <img class="article-card-img" src="https://substackcdn.com/image/fetch/w_1200,h_675,c_fill,f_jpg,q_auto:good/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdeef29dc-7ccc-4e6b-9e4c-7187d8da0d8a_1700x1133.jpeg" alt="" loading="lazy">
+        </div>
+        <div class="article-card-body">
+          <div class="article-card-meta">Vice &mdash; Jun 2026</div>
+          <div class="article-card-title">Fête de la Musique: Gwen Sampé</div>
+          <div class="article-card-excerpt"></div>
+        </div>
+      </a>
 
       <a class="article-card" href="https://viceint.substack.com/p/ai-boyfriend" target="_blank" rel="noopener">
         <div class="article-card-img-wrap">
@@ -100,39 +145,6 @@
           <div class="article-card-meta">Vice &mdash; Oct 2025</div>
           <div class="article-card-title">A New Wave of Moroccan Youth Is Rising Up</div>
           <div class="article-card-excerpt">Last Sunday, Mohammed Khalil Ghlimi documented the GenZ protests in Casablanca, Morocco. Young people across the country have taken to the streets to call out corruption and inequality.</div>
-        </div>
-      </a>
-
-      <a class="article-card" href="https://www.vice.com/nl/article/een-ticket-uit-de-manosphere-alsjeblieft/" target="_blank" rel="noopener">
-        <div class="article-card-img-wrap">
-          <img class="article-card-img" src="https://www.vice.com/wp-content/uploads/sites/2/2026/07/Een_ticket_uit_de_manosphere__alsjeblieft-1.jpg?w=952" alt="" loading="lazy">
-        </div>
-        <div class="article-card-body">
-          <div class="article-card-meta">Vice &mdash; 2025</div>
-          <div class="article-card-title">Een ticket uit de manosphere, alsjeblieft</div>
-          <div class="article-card-excerpt"></div>
-        </div>
-      </a>
-
-      <a class="article-card" href="https://viceint.substack.com/p/fete-de-la-musique-gwen-sampe" target="_blank" rel="noopener">
-        <div class="article-card-img-wrap">
-          <img class="article-card-img" src="https://substackcdn.com/image/fetch/w_1200,h_675,c_fill,f_jpg,q_auto:good/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdeef29dc-7ccc-4e6b-9e4c-7187d8da0d8a_1700x1133.jpeg" alt="" loading="lazy">
-        </div>
-        <div class="article-card-body">
-          <div class="article-card-meta">Vice &mdash; 2025</div>
-          <div class="article-card-title">Fête de la Musique: Gwen Sampé</div>
-          <div class="article-card-excerpt"></div>
-        </div>
-      </a>
-
-      <a class="article-card" href="https://viceint.substack.com/p/masculinity-outside-the-manosphere" target="_blank" rel="noopener">
-        <div class="article-card-img-wrap">
-          <img class="article-card-img" src="https://substackcdn.com/image/fetch/w_1200,h_675,c_fill,f_jpg,q_auto:good/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F23699549-b690-475a-9548-bbb125ea6425_1700x1160.jpeg" alt="" loading="lazy">
-        </div>
-        <div class="article-card-body">
-          <div class="article-card-meta">Vice &mdash; 2025</div>
-          <div class="article-card-title">One ticket out of the Manosphere, please</div>
-          <div class="article-card-excerpt"></div>
         </div>
       </a>
 
@@ -212,6 +224,13 @@
           <div class="project-card-title">From Glitz to Glory</div>
         </div>
       </div>
+      <div class="project-card" data-nav="photo-detail" data-ctx="fete">
+        <div class="project-card-placeholder" id="cover-fete"></div>
+        <div class="project-card-info">
+          <div class="project-card-tag">Vice</div>
+          <div class="project-card-title">Fête de la Musique</div>
+        </div>
+      </div>
       <div class="project-card" data-nav="photo-detail" data-ctx="barbes">
         <div class="project-card-placeholder" id="cover-barbes"></div>
         <div class="project-card-info">
@@ -231,13 +250,6 @@
         <div class="project-card-info">
           <div class="project-card-tag">Vice</div>
           <div class="project-card-title">Arnhem Unfiltered</div>
-        </div>
-      </div>
-      <div class="project-card" data-nav="photo-detail" data-ctx="fete">
-        <div class="project-card-placeholder" id="cover-fete"></div>
-        <div class="project-card-info">
-          <div class="project-card-tag">Vice</div>
-          <div class="project-card-title">Fête de la Musique</div>
         </div>
       </div>
     </div>
@@ -289,7 +301,7 @@
         <h1 id="detail-title"></h1>
         <p id="detail-tag" style="margin-top:0.3rem;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);font-family:var(--body);"></p>
       </div>
-      <span class="page-back" data-nav="back">← Back</span>
+      <span class="page-back" id="detail-back" data-nav="photography">← Back</span>
     </div>
     <div id="detail-content"></div>
   </div>

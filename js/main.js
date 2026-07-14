@@ -1,6 +1,3 @@
-// ─── STATE ───────────────────────────────────────────────────
-let navStack = [];
-
 // ─── VIEW REGISTRY ───────────────────────────────────────────
 const views = {
   landing:        document.getElementById('view-landing'),
@@ -23,10 +20,57 @@ function showView(id) {
   navEl.style.display = id === 'landing' ? 'none' : '';
 }
 
-function goBack() {
-  navStack.pop();
-  showView(navStack[navStack.length - 1] || 'landing');
+// ─── ROUTING ─────────────────────────────────────────────────
+// Which category page a photo-detail project belongs to, so the
+// "← Back" link works even on a direct/refreshed load of a detail page.
+const CTX_PARENT = {
+  queer: 'vice', glitz: 'vice', barbes: 'vice', florence: 'vice', arnhem: 'vice', fete: 'vice',
+  ribs: 'exhibitions', kigali: 'exhibitions',
+  gallery_fashion: 'photography', gallery_documentary: 'photography', gallery_street: 'photography',
+};
+const PARENT_LABEL = { vice: 'Vice', exhibitions: 'Exhibitions', photography: 'Photography' };
+
+const SUB_VIEWS = ['vice', 'exhibitions', 'independent'];
+
+function pathFor(view, ctx) {
+  if (view === 'landing') return '/';
+  if (view === 'photo-detail') return `/photography/project/${ctx}`;
+  if (SUB_VIEWS.includes(view)) return `/photography/${view}`;
+  return `/${view}`;
 }
+
+function parsePath(pathname) {
+  const parts = pathname.replace(/^\/|\/$/g, '').split('/').filter(Boolean);
+  if (parts.length === 0) return { view: 'landing' };
+  if (parts[0] === 'photography') {
+    if (parts.length === 1) return { view: 'photography' };
+    if (parts[1] === 'project' && parts[2]) return { view: 'photo-detail', ctx: parts[2] };
+    if (SUB_VIEWS.includes(parts[1])) return { view: parts[1] };
+    return { view: 'photography' };
+  }
+  if (views[parts[0]]) return { view: parts[0] };
+  return { view: 'landing' };
+}
+
+function render(view, ctx) {
+  showView(view);
+  if (view === 'photo-detail') renderDetail(ctx);
+  if (view === 'independent') renderIndependent();
+}
+
+function navigate(view, ctx, { push = true } = {}) {
+  if (view === 'photo-detail' && !photoData[ctx]) { view = 'landing'; ctx = undefined; }
+  render(view, ctx);
+  const path = pathFor(view, ctx);
+  const state = { view, ctx };
+  if (push) history.pushState(state, '', path);
+  else history.replaceState(state, '', path);
+}
+
+window.addEventListener('popstate', e => {
+  const { view, ctx } = e.state || parsePath(location.pathname);
+  render(view, ctx);
+});
 
 // ─── HAMBURGER ───────────────────────────────────────────────
 const hamburger   = document.getElementById('hamburger');
@@ -215,6 +259,8 @@ const detailTitle   = document.getElementById('detail-title');
 const detailTag     = document.getElementById('detail-tag');
 const detailContent = document.getElementById('detail-content');
 
+const detailBack = document.getElementById('detail-back');
+
 function renderDetail(key) {
   const data = photoData[key];
   if (!data) return;
@@ -222,6 +268,10 @@ function renderDetail(key) {
   detailTitle.textContent = data.title;
   detailTag.textContent   = data.tag || '';
   detailContent.innerHTML = '';
+
+  const parent = CTX_PARENT[key] || 'photography';
+  detailBack.dataset.nav = parent;
+  detailBack.textContent = `← ${PARENT_LABEL[parent]}`;
 
   if (data.description) {
     const descWrap = document.createElement('div');
@@ -368,33 +418,14 @@ document.addEventListener('click', e => {
   const el = e.target.closest('[data-nav]');
   if (!el) return;
   e.preventDefault();
-
-  const target = el.dataset.nav;
-  const ctx    = el.dataset.ctx;
-
-  if (target === 'back') { goBack(); return; }
-
-  if (target === 'independent') {
-    navStack.push('independent');
-    showView('independent');
-    renderIndependent();
-    return;
-  }
-
-  if (target === 'photo-detail' && ctx) {
-    navStack.push('photo-detail');
-    showView('photo-detail');
-    renderDetail(ctx);
-    return;
-  }
-
-  navStack = [target];
-  showView(target);
+  navigate(el.dataset.nav, el.dataset.ctx);
 });
 
 // ─── INIT ─────────────────────────────────────────────────────
-navStack = ['landing'];
-showView('landing');
+{
+  const { view, ctx } = parsePath(location.pathname);
+  navigate(view, ctx, { push: false });
+}
 
 // ─── LIGHTBOX ─────────────────────────────────────────────────
 const lightbox     = document.getElementById('lightbox');
