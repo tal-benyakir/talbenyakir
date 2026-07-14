@@ -86,6 +86,13 @@ const photoData = {
       '01 (13).jpg','01 (14).jpg'
     ]),
   },
+  fete: {
+    title: 'Fête de la Musique', tag: 'VICE', type: 'masonry',
+    items: imgs('vice/fete', [
+      'jpg (1).jpg','jpg (2).jpg','jpg (3).jpg','jpg (4).jpg','jpg (5).jpg',
+      'jpg (6).jpg','jpg (7).jpg','jpg (8).jpg','jpg (9).jpg','jpg (10).jpg'
+    ]),
+  },
   // ── EXHIBITIONS ────────────────────────────────────────────
   ribs: {
     title: 'Ribs', tag: 'Fotomuseum Amsterdam', type: 'masonry',
@@ -132,7 +139,7 @@ const photoData = {
   },
   // ── GALLERIES ──────────────────────────────────────────────
   gallery_fashion: {
-    title: 'Fashion', tag: null, type: 'masonry',
+    title: 'Editorial', tag: null, type: 'masonry',
     items: imgs('galleries/fashion', [
       '01 (1).jpg','01 (4).jpg','01 (5).jpg','01 (6).jpg','01 (7).jpg',
       '01 (8).jpg','01 (9).jpg','01 (10).jpg','01 (11).jpg','01 (12).jpg'
@@ -168,7 +175,7 @@ Object.entries(catCovers).forEach(([key, file]) => {
   img.alt = ''; img.loading = 'lazy';
   el.appendChild(img);
 });
-const coverKeys = ['queer','glitz','barbes','florence','arnhem','ribs','kigali','gallery_fashion','gallery_documentary','gallery_street'];
+const coverKeys = ['queer','glitz','barbes','florence','arnhem','fete','ribs','kigali','gallery_fashion','gallery_documentary','gallery_street'];
 
 coverKeys.forEach(key => {
   const el = document.getElementById('cover-' + key);
@@ -274,10 +281,17 @@ function renderDetail(key) {
 
     detailContent.appendChild(grid);
 
-    // Poem at the bottom
     if (data.poem) {
+      const poemTitle = document.createElement('div');
+      poemTitle.style.cssText = 'margin-top:4rem;padding-top:2rem;border-top:1px solid var(--rule-lt);margin-bottom:1.5rem;';
+      poemTitle.innerHTML = `
+        <h2 style="font-family:var(--display);font-size:clamp(2rem,4vw,3rem);font-weight:400;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:0.3rem;">Ribs</h2>
+        <p style="font-family:var(--body);font-size:0.8rem;color:#666;font-style:italic;">By Sam Sax</p>
+      `;
+      detailContent.appendChild(poemTitle);
+
       const poemWrap = document.createElement('div');
-      poemWrap.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:4rem;margin-bottom:6rem;padding-top:2rem;border-top:1px solid var(--rule-lt);';
+      poemWrap.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:6rem;';
       data.poem[0].forEach(col => {
         const colEl = document.createElement('p');
         colEl.style.cssText = 'font-family:var(--body);font-size:0.8rem;line-height:1.9;white-space:pre-line;color:var(--ink);';
