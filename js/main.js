@@ -26,7 +26,7 @@ function showView(id) {
 const CTX_PARENT = {
   queer: 'vice', glitz: 'vice', barbes: 'vice', florence: 'vice', arnhem: 'vice', fete: 'vice',
   ribs: 'exhibitions', kigali: 'exhibitions',
-  gallery_fashion: 'photography', gallery_documentary: 'photography', gallery_street: 'photography',
+  editorial: 'photography', events: 'photography', gallery_street: 'photography',
 };
 const PARENT_LABEL = { vice: 'Vice', exhibitions: 'Exhibitions', photography: 'Photography' };
 
@@ -182,14 +182,14 @@ const photoData = {
     ]),
   },
   // ── GALLERIES ──────────────────────────────────────────────
-  gallery_fashion: {
+  editorial: {
     title: 'Editorial', tag: null, type: 'masonry',
     items: imgs('galleries/fashion', [
       '01 (1).jpg','01 (4).jpg','01 (5).jpg','01 (6).jpg','01 (7).jpg',
       '01 (8).jpg','01 (9).jpg','01 (10).jpg','01 (11).jpg','01 (12).jpg'
     ]),
   },
-  gallery_documentary: {
+  events: {
     title: 'Events', tag: null, type: 'masonry',
     items: imgs('galleries/documentary', [
       '01 (1).jpg','01 (2).jpg','01 (3).jpg','01 (4).jpg','01 (5).jpg','01 (6).jpg','01 (7).jpg',
@@ -219,14 +219,14 @@ Object.entries(catCovers).forEach(([key, file]) => {
   img.alt = ''; img.loading = 'lazy';
   el.appendChild(img);
 });
-const coverKeys = ['queer','glitz','barbes','florence','arnhem','fete','ribs','kigali','gallery_fashion','gallery_documentary','gallery_street'];
+const coverKeys = ['queer','glitz','barbes','florence','arnhem','fete','ribs','kigali','editorial','events','gallery_street'];
 
 coverKeys.forEach(key => {
   const el = document.getElementById('cover-' + key);
   if (!el) return;
   let src;
-  if (key === 'gallery_fashion')     src = `${BASE}/galleries/T1.jpg`;
-  else if (key === 'gallery_documentary') src = `${BASE}/galleries/T2.jpg`;
+  if (key === 'editorial')     src = `${BASE}/galleries/T1.jpg`;
+  else if (key === 'events') src = `${BASE}/galleries/T2.jpg`;
   else if (key === 'gallery_street') src = `${BASE}/galleries/T3.jpg`;
   else src = photoData[key]?.items?.[0]?.src;
   if (!src) return;
