@@ -18,8 +18,8 @@ button { background: none; border: none; cursor: pointer; padding: 0; }
   --serif:   'Playfair Display', Georgia, serif;      /* mixed-case headings */
   --body:    'Newsreader', Georgia, serif;            /* body text, meta */
 
-  --margin:  clamp(1.5rem, 6vw, 6rem);
-  --max:     1280px;
+  --margin:  clamp(1.5rem, 4vw, 4rem);
+  --max:     1800px;
 }
 
 /* ─── BASE ───────────────────────────────────────────────────── */
