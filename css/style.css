@@ -674,3 +674,8 @@ nav {
 .lightbox-arrow:hover { opacity: 1; }
 .lightbox-arrow-prev { left: 1rem; }
 .lightbox-arrow-next { right: 1rem; }
+
+/* ─── VIDEO ──────────────────────────────────────────────────── */
+/* Reels are vertical, so their stills get a taller frame than article images */
+.video-grid .article-card-img-wrap { aspect-ratio: 4/5; }
+.video-grid .article-card-img { object-position: center 30%; }

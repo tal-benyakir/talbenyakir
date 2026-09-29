@@ -3,6 +3,7 @@ const views = {
   landing:        document.getElementById('view-landing'),
   articles:       document.getElementById('view-articles'),
   photography:    document.getElementById('view-photography'),
+  video:          document.getElementById('view-video'),
   bio:            document.getElementById('view-bio'),
   vice:           document.getElementById('view-vice'),
   exhibitions:    document.getElementById('view-exhibitions'),
