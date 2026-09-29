@@ -22,9 +22,9 @@ function showView(id) {
 
 // ─── ROUTING ─────────────────────────────────────────────────
 // Which category page a photo-detail project belongs to, so the
-// "← Back" link works even on a direct/refreshed load of a detail page.
+// "Back" link works even on a direct/refreshed load of a detail page.
 const CTX_PARENT = {
-  queer: 'vice', glitz: 'vice', barbes: 'vice', florence: 'vice', arnhem: 'vice', fete: 'vice',
+  kidill: 'vice', queer: 'vice', glitz: 'vice', barbes: 'vice', florence: 'vice', arnhem: 'vice', fete: 'vice',
   ribs: 'exhibitions', kigali: 'exhibitions',
   editorial: 'photography', events: 'photography', gallery_street: 'photography',
 };
@@ -95,6 +95,15 @@ function imgs(folder, filenames) {
 // ─── DATA ─────────────────────────────────────────────────────
 const photoData = {
   // ── VICE ───────────────────────────────────────────────────
+  kidill: {
+    title: 'Paris Fashion Week: KIDILL', tag: 'VICE', type: 'masonry',
+    items: imgs('vice/kidill', [
+      'Kidill -00076-2.jpg','Kidill -00031.jpg','Kidill -00041.jpg','Kidill -00047.jpg',
+      'Kidill -00063.jpg','Kidill -00110-2.jpg','Kidill -09744.jpg','Kidill -09757.jpg',
+      'Kidill -09795.jpg','Kidill -09831.jpg','Kidill -09869-2.png','Kidill -09916.jpg',
+      'Kidill -09954.jpg'
+    ]),
+  },
   queer: {
     title: 'Queer in the Dutch Countryside', tag: 'VICE', type: 'masonry',
     items: imgs('vice/queer', [
@@ -219,7 +228,7 @@ Object.entries(catCovers).forEach(([key, file]) => {
   img.alt = ''; img.loading = 'lazy';
   el.appendChild(img);
 });
-const coverKeys = ['queer','glitz','barbes','florence','arnhem','fete','ribs','kigali','editorial','events','gallery_street'];
+const coverKeys = ['kidill','queer','glitz','barbes','florence','arnhem','fete','ribs','kigali','editorial','events','gallery_street'];
 
 coverKeys.forEach(key => {
   const el = document.getElementById('cover-' + key);
@@ -271,7 +280,7 @@ function renderDetail(key) {
 
   const parent = CTX_PARENT[key] || 'photography';
   detailBack.dataset.nav = parent;
-  detailBack.textContent = `← ${PARENT_LABEL[parent]}`;
+  detailBack.textContent = PARENT_LABEL[parent];
 
   if (data.description) {
     const descWrap = document.createElement('div');
