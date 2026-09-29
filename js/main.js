@@ -345,7 +345,7 @@ function renderDetail(key) {
       const poemTitle = document.createElement('div');
       poemTitle.style.cssText = 'margin-top:4rem;padding-top:2rem;border-top:1px solid var(--rule-lt);margin-bottom:1.5rem;';
       poemTitle.innerHTML = `
-        <h2 style="font-family:var(--display);font-size:clamp(2rem,4vw,3rem);font-weight:400;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:0.3rem;">Ribs</h2>
+        <h2 style="font-family:var(--display);font-size:clamp(2rem,4vw,3rem);font-weight:var(--w-display);text-transform:uppercase;letter-spacing:0.02em;margin-bottom:0.3rem;">Ribs</h2>
         <p style="font-family:var(--body);font-size:0.8rem;color:#666;font-style:italic;">By Sam Sax</p>
       `;
       detailContent.appendChild(poemTitle);

@@ -10,13 +10,17 @@ button { background: none; border: none; cursor: pointer; padding: 0; }
   --white:   #FFFFFF;
   --off:     #F5F4F1;
   --ink:     #111111;
-  --mid:     #df2531;
+  --mid:     #FF1F1F;
   --rule:    #111111;
   --rule-lt: #DEDEDE;
 
-  --display: 'Playfair Display SC', Georgia, serif;  /* all-caps contexts */
+  --display: 'Playfair Display', Georgia, serif;     /* page titles, menu, landing name */
   --serif:   'Playfair Display', Georgia, serif;      /* mixed-case headings */
   --body:    'Newsreader', Georgia, serif;            /* body text, meta */
+
+  /* Heavier Playfair weights widen the thick/thin stroke contrast */
+  --w-display: 600;                                   /* caps headings, menu */
+  --w-serif:   500;                                   /* mixed-case titles */
 
   --margin:  clamp(1.5rem, 4vw, 4rem);
   --max:     1800px;
@@ -80,6 +84,7 @@ nav {
 }
 
 .menu-overlay a {
+  font-weight: var(--w-display);
   display: block;
   font-family: var(--display);
   font-size: clamp(2rem, 6vw, 4rem);
@@ -128,7 +133,7 @@ nav {
 .landing-name {
   font-family: var(--display);
   font-size: clamp(2.5rem, 6vw, 5.5rem);
-  font-weight: 400;
+  font-weight: var(--w-display);
   font-style: normal;
   letter-spacing: 0.02em;
   line-height: 1.0;
@@ -161,7 +166,7 @@ nav {
 .landing-nav a {
   font-family: var(--serif);
   font-size: clamp(1.1rem, 2.4vw, 2.1rem);
-  font-weight: 400;
+  font-weight: var(--w-serif);
   font-style: normal;
   color: var(--ink);
   white-space: nowrap;
@@ -191,10 +196,9 @@ nav {
 .page-header h1 {
   font-family: var(--display);
   font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 400;
+  font-weight: var(--w-display);
   font-style: normal;
   letter-spacing: -0.01em;
-  text-transform: uppercase;
 }
 
 .page-back {
@@ -215,7 +219,7 @@ nav {
 .section-label {
   font-family: var(--serif);
   font-size: clamp(1.1rem, 2vw, 1.4rem);
-  font-weight: 400;
+  font-weight: var(--w-serif);
   letter-spacing: -0.01em;
   padding-bottom: 0.6rem;
   border-bottom: 1px solid var(--rule);
@@ -275,7 +279,7 @@ nav {
 .article-card-title {
   font-family: var(--serif);
   font-size: clamp(0.95rem, 1.5vw, 1.1rem);
-  font-weight: 400;
+  font-weight: var(--w-serif);
   line-height: 1.3;
   margin-bottom: 0.6rem;
   color: var(--ink);
@@ -333,7 +337,7 @@ nav {
 .photo-cat-title {
   font-family: var(--serif);
   font-size: clamp(1.1rem, 2vw, 1.5rem);
-  font-weight: 400;
+  font-weight: var(--w-serif);
   line-height: 1.2;
   margin-bottom: 0.4rem;
 }
@@ -412,6 +416,7 @@ nav {
   font-family: var(--serif);
   font-size: 0.95rem;
   font-style: italic;
+  font-weight: var(--w-serif);
   line-height: 1.3;
 }
 
@@ -455,7 +460,7 @@ nav {
 .gallery-card-title {
   font-family: var(--serif);
   font-size: clamp(1.1rem, 2vw, 1.5rem);
-  font-weight: 400;
+  font-weight: var(--w-serif);
   line-height: 1.2;
 }
 
@@ -524,6 +529,7 @@ nav {
   font-family: var(--serif);
   font-size: 0.85rem;
   font-style: italic;
+  font-weight: var(--w-serif);
   letter-spacing: 0.02em;
   color: var(--mid);
   margin-bottom: 1rem;
