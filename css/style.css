@@ -229,6 +229,33 @@ nav {
 .section-label:first-of-type { margin-top: 0; }
 
 /* ─── ARTICLES ───────────────────────────────────────────────── */
+.lang-filter {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.lang-filter a {
+  font-family: var(--body);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.lang-filter a:hover { color: var(--mid); }
+
+.lang-filter a.active {
+  color: var(--mid);
+  font-weight: 600;
+  border-bottom-color: var(--mid);
+}
+
+.article-card[hidden] { display: none; }
+
 .articles-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -32,10 +32,12 @@ const CTX_PARENT = {
 const PARENT_LABEL = { vice: 'Vice', exhibitions: 'Exhibitions', photography: 'Photography' };
 
 const SUB_VIEWS = ['vice', 'exhibitions', 'independent'];
+const ARTICLE_LANGS = ['eng', 'nl', 'fr'];
 
 function pathFor(view, ctx) {
   if (view === 'landing') return '/';
   if (view === 'photo-detail') return `/photography/project/${ctx}`;
+  if (view === 'articles' && ctx) return `/articles/${ctx}`;
   if (SUB_VIEWS.includes(view)) return `/photography/${view}`;
   return `/${view}`;
 }
@@ -49,6 +51,9 @@ function parsePath(pathname) {
     if (SUB_VIEWS.includes(parts[1])) return { view: parts[1] };
     return { view: 'photography' };
   }
+  if (parts[0] === 'articles') {
+    return { view: 'articles', ctx: ARTICLE_LANGS.includes(parts[1]) ? parts[1] : undefined };
+  }
   if (views[parts[0]]) return { view: parts[0] };
   return { view: 'landing' };
 }
@@ -57,6 +62,22 @@ function render(view, ctx) {
   showView(view);
   if (view === 'photo-detail') renderDetail(ctx);
   if (view === 'independent') renderIndependent();
+  if (view === 'articles') filterArticles(ctx);
+}
+
+// ─── ARTICLE LANGUAGE FILTER ─────────────────────────────────
+// A card's language is the last part of its meta line ("Vice — Oct 2026 — NL").
+const articleCards = [...document.querySelectorAll('#view-articles .article-card')];
+articleCards.forEach(card => {
+  const meta = card.querySelector('.article-card-meta').textContent;
+  card.dataset.lang = meta.split('—').pop().trim().toLowerCase();
+});
+
+function filterArticles(lang) {
+  articleCards.forEach(card => { card.hidden = Boolean(lang) && card.dataset.lang !== lang; });
+  document.querySelectorAll('[data-lang-filter]').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.langFilter === (lang || ''))
+  );
 }
 
 function navigate(view, ctx, { push = true } = {}) {
