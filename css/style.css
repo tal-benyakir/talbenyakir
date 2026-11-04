@@ -710,6 +710,7 @@ nav {
 /* ─── VIDEO ──────────────────────────────────────────────────── */
 /* Video cards use the same landscape frame as articles. Vertical reel stills are
    positioned per card (inline object-position) so the person's face stays in view. */
+.video-grid:not(:last-child) { margin-bottom: 3rem; }   /* section gap, as on Photography */
 
 /* ─── FILM PAGE ──────────────────────────────────────────────── */
 .film-meta {
