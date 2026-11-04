@@ -73,6 +73,33 @@ function render(view, ctx) {
   if (view === 'photo-detail') renderDetail(ctx);
   if (view === 'independent') renderIndependent();
   if (view === 'articles') filterArticles(ctx);
+  if (view.startsWith('film-')) setupFilm(views[view].querySelector('video[data-stream]'));
+}
+
+// ─── FILM STREAMING ──────────────────────────────────────────
+// Films are HLS streams (the original file cut into short segments, since GitHub
+// rejects files over 100 MB). Safari/iOS play HLS natively; elsewhere use hls.js.
+const HLS_JS = 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.20/hls.min.js';
+let hlsScript;
+
+function setupFilm(video) {
+  if (!video || video.dataset.ready) return;
+  video.dataset.ready = '1';
+  const src = video.dataset.stream;
+  if (video.canPlayType('application/vnd.apple.mpegurl')) { video.src = src; return; }
+  hlsScript ??= new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = HLS_JS; s.onload = resolve; s.onerror = reject;
+    document.head.appendChild(s);
+  });
+  hlsScript.then(() => {
+    if (!window.Hls?.isSupported()) return;
+    const hls = new Hls({ autoStartLoad: false });
+    hls.loadSource(src);
+    hls.attachMedia(video);
+    // Only start fetching segments once the viewer presses play
+    video.addEventListener('play', () => hls.startLoad(), { once: true });
+  });
 }
 
 // ─── ARTICLE LANGUAGE FILTER ─────────────────────────────────
