@@ -711,3 +711,56 @@ nav {
 /* Reels are vertical, so their stills get a taller frame than article images */
 .video-grid .article-card-img-wrap { aspect-ratio: 4/5; }
 .video-grid .article-card-img { object-position: center 30%; }
+
+/* ─── FILM PAGE ──────────────────────────────────────────────── */
+.film-meta {
+  margin-top: 0.4rem;
+  font-family: var(--body);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+.film-player {
+  display: block;
+  width: 100%;
+  max-height: calc(100vh - 8rem);
+  aspect-ratio: 16 / 9;
+  background: #000;
+  margin-bottom: 2.5rem;
+}
+
+.film-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  padding-bottom: 6rem;
+}
+
+.film-desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.film-credits {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.6rem 1.5rem;
+  font-size: 0.85rem;
+}
+
+.film-credits dt {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  padding-top: 0.15rem;
+}
+
+.film-credits dd { color: var(--ink); }
+
+@media (max-width: 600px) {
+  .film-info { grid-template-columns: 1fr; }
+}

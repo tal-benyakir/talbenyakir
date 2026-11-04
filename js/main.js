@@ -11,9 +11,15 @@ const views = {
   'photo-detail': document.getElementById('view-photo-detail'),
 };
 
+// Each film has its own page, <div id="view-film-<slug>">, served at /video/<slug>
+document.querySelectorAll('[id^="view-film-"]').forEach(el => {
+  views[el.id.slice('view-'.length)] = el;
+});
+
 const navEl = document.querySelector('nav');
 
 function showView(id) {
+  document.querySelectorAll('video').forEach(v => v.pause());
   Object.values(views).forEach(v => v && v.classList.remove('active'));
   if (views[id]) views[id].classList.add('active');
   window.scrollTo(0, 0);
@@ -38,6 +44,7 @@ function pathFor(view, ctx) {
   if (view === 'landing') return '/';
   if (view === 'photo-detail') return `/photography/project/${ctx}`;
   if (view === 'articles' && ctx) return `/articles/${ctx}`;
+  if (view.startsWith('film-')) return `/video/${view.slice('film-'.length)}`;
   if (SUB_VIEWS.includes(view)) return `/photography/${view}`;
   return `/${view}`;
 }
@@ -53,6 +60,9 @@ function parsePath(pathname) {
   }
   if (parts[0] === 'articles') {
     return { view: 'articles', ctx: ARTICLE_LANGS.includes(parts[1]) ? parts[1] : undefined };
+  }
+  if (parts[0] === 'video' && parts[1]) {
+    return views[`film-${parts[1]}`] ? { view: `film-${parts[1]}` } : { view: 'video' };
   }
   if (views[parts[0]]) return { view: parts[0] };
   return { view: 'landing' };
