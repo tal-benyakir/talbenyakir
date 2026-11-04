@@ -108,7 +108,8 @@ hamburger.addEventListener('click', () =>
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
 // ─── BASE URL ─────────────────────────────────────────────────
-const BASE = 'https://cdn.jsdelivr.net/gh/tal-benyakir/portfolio-images@main/images';
+// Served by GitHub Pages on the portfolio-images repo (jsDelivr caps repos at 50 MB)
+const BASE = 'https://tal-benyakir.github.io/portfolio-images/images';
 
 function imgs(folder, filenames) {
   return filenames.map(f => ({ src: `${BASE}/${folder}/${f}` }));
